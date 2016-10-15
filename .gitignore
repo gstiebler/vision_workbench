@@ -2,3 +2,4 @@ build/CMakeFiles/*
 build/__/*
 obj/*
 bin/*
+*.json
