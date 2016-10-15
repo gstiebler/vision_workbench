@@ -26,7 +26,7 @@ signals:
 
 private slots:
 
-	void aboutClicked();
+	void executeClicked();
 
 private:
 
