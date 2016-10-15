@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     setupUi(this);
 
-    //connect( buttonExecute, SIGNAL( clicked() ), this, SIGNAL( executeButtonClicked() ) );
+    connect( buttonExecute, SIGNAL( clicked() ), this, SLOT( aboutClicked() ) );
     //connect( btInputDirectory, SIGNAL( clicked() ), this, SLOT( selectFolder() ) );
 	//connect( menuSobre, SIGNAL(aboutToShow()), this, SLOT(aboutClicked()) );
 }
