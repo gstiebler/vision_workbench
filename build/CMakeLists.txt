@@ -9,6 +9,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5OpenGL REQUIRED)
 FIND_PACKAGE(OpenGL REQUIRED)
+find_package( OpenCV REQUIRED )
 
 #INCLUDE(${QT_USE_FILE})
 ADD_DEFINITIONS(${QT_DEFINITIONS})
@@ -53,7 +54,7 @@ qt5_use_modules(qt_proj_exe Widgets OpenGL)
 
 set(qt_proj_LIBRARIES ${QT_LIBRARIES} ${OPENGL_LIBRARIES} ) 
                    
-target_link_libraries(qt_proj_exe ${qt_proj_LIBRARIES} ${QT_LIBRARIES})
+target_link_libraries(qt_proj_exe ${qt_proj_LIBRARIES} ${QT_LIBRARIES} ${OpenCV_LIBS} )
 
 if (WIN32)
     set(CMAKE_CXX_FLAGS  "/MP")
