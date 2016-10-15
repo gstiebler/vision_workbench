@@ -1,2 +1,4 @@
 build/CMakeFiles/*
 build/__/*
+obj/*
+bin/*
