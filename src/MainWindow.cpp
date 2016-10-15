@@ -11,6 +11,7 @@
 #include <QMessageBox>
 #include <string>
 #include <opencv2/opencv.hpp>
+#include <QFileDialog>
 
 using namespace std;
 using namespace cv;
@@ -30,19 +31,24 @@ MainWindow::~MainWindow()
 
 void MainWindow::executeClicked()
 {
-	Mat image;
-    image = imread( "lena.jpg", 1 );
-    if ( !image.data )
-    {
-        printf("No image data \n");
-        return;
-    }
+	QFileDialog dialog(NULL);
+	if ( dialog.exec() ) 
+	{
+		printf("teste: %s\n", dialog.selectedFiles()[0].toLatin1().data());
 
-	buttonExecute;
-  	QImage srcImage = QImage((const unsigned char*)(image.data),
-                              image.cols, image.rows,
-                              image.step, QImage::Format_RGB888).rgbSwapped();
+		Mat image;
+		image = imread( dialog.selectedFiles()[0].toLatin1().data(), 1 );
+		if ( !image.data )
+		{
+			printf("No image data \n");
+			return;
+		}
+		
+		QImage srcImage = QImage((const unsigned char*)(image.data),
+								image.cols, image.rows,
+								image.step, QImage::Format_RGB888).rgbSwapped();
 
-	srcImageLabel->setPixmap(QPixmap::fromImage(srcImage));
-    srcImageLabel->show();
+		srcImageLabel->setPixmap(QPixmap::fromImage(srcImage));
+		srcImageLabel->show();
+	}
 }
