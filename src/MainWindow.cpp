@@ -12,6 +12,7 @@
 #include <string>
 #include <opencv2/opencv.hpp>
 #include <QFileDialog>
+#include "VideoWindow.h"
 
 using namespace std;
 using namespace cv;
@@ -21,6 +22,11 @@ MainWindow::MainWindow(QWidget *parent)
     setupUi(this);
 
     connect( buttonExecute, SIGNAL( clicked() ), this, SLOT( executeClicked() ) );
+
+    QObject::connect( videoWindowButton, &QPushButton::clicked, [this] () {
+		VideoWindow *window = new VideoWindow(this, this);
+		window->show();
+	});
     //connect( btInputDirectory, SIGNAL( clicked() ), this, SLOT( selectFolder() ) );
 	//connect( menuSobre, SIGNAL(aboutToShow()), this, SLOT(aboutClicked()) );
 }

@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Abrir arquivo</string>
+     <string>Open file</string>
     </property>
    </widget>
    <widget class="QLabel" name="srcImageLabel">
@@ -40,6 +40,19 @@
      <string/>
     </property>
    </widget>
+   <widget class="QPushButton" name="videoWindowButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>580</y>
+      <width>161</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Open video capture</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -50,12 +63,12 @@
      <height>30</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuSobre">
+   <widget class="QMenu" name="menuAbout">
     <property name="title">
-     <string>Sobre</string>
+     <string>Abo&amp;ut</string>
     </property>
    </widget>
-   <addaction name="menuSobre"/>
+   <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
