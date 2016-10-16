@@ -13,6 +13,7 @@ find_package( OpenCV REQUIRED )
 
 #INCLUDE(${QT_USE_FILE})
 ADD_DEFINITIONS(${QT_DEFINITIONS})
+add_definitions(-std=c++11)
 
 set(EXECUTABLE_OUTPUT_PATH ../bin)
 set(SRC_BASE ../src)
@@ -21,6 +22,7 @@ set(QT_UI_BASE_PATH ../data/qt)
 set( SOURCES
     ${SRC_BASE}/main.cpp
     ${SRC_BASE}/MainWindow.cpp
+    ${SRC_BASE}/VideoWindow.cpp
 )
 
 set( ALL_SOURCES 
@@ -29,15 +31,19 @@ set( ALL_SOURCES
             
 SET( QT_UIS
      ${QT_UI_BASE_PATH}/MainWindow.ui
+     ${QT_UI_BASE_PATH}/Video.ui
 )
                 
-QT5_WRAP_CPP(cw_HEADERS_MOC ${SRC_BASE}/MainWindow.h
+QT5_WRAP_CPP(cw_HEADERS_MOC 
+    ${SRC_BASE}/MainWindow.h
+    ${SRC_BASE}/VideoWindow.h
 )
                           
 set( MOC_BASE_DIR __/src )
                           
 source_group( "Source Files\\Moc" FILES 
     ${MOC_BASE_DIR}/interface/moc_MainWindow.cpp 
+    ${MOC_BASE_DIR}/interface/moc_VideoWindow.cpp 
 )
                             
 QT5_WRAP_UI(QTTEST_GEN_UIS ${QT_UIS} )             

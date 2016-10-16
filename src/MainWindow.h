@@ -11,14 +11,23 @@
 #include <QMainWindow>
 #include "ui_MainWindow.h"
 #include <string>
+#include <opencv2/opencv.hpp>
 
-class MainWindow : public QMainWindow, private Ui::MainWindow
+class WindowImagesInterface
+{
+public:
+	virtual void setSrcImage(cv::Mat &image) = 0;
+};
+
+class MainWindow : public QMainWindow, private Ui::MainWindow, public WindowImagesInterface
 {
     Q_OBJECT
 
 public:
     MainWindow(QWidget *parent = 0);
     virtual ~MainWindow();
+
+	void setSrcImage(cv::Mat &image);
 
 signals:
 

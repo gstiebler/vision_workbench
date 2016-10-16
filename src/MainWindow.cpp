@@ -43,12 +43,16 @@ void MainWindow::executeClicked()
 			printf("No image data \n");
 			return;
 		}
-		
-		QImage srcImage = QImage((const unsigned char*)(image.data),
-								image.cols, image.rows,
-								image.step, QImage::Format_RGB888).rgbSwapped();
-
-		srcImageLabel->setPixmap(QPixmap::fromImage(srcImage));
-		srcImageLabel->show();
+		setSrcImage(image);
 	}
+}
+
+void MainWindow::setSrcImage(Mat &image)
+{
+	QImage srcImage = QImage((const unsigned char*)(image.data),
+							image.cols, image.rows,
+							image.step, QImage::Format_RGB888).rgbSwapped();
+
+	srcImageLabel->setPixmap(QPixmap::fromImage(srcImage));
+	srcImageLabel->show();
 }

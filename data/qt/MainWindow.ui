@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>702</width>
-    <height>396</height>
+    <width>933</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,23 +17,23 @@
    <widget class="QPushButton" name="buttonExecute">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>20</y>
-      <width>75</width>
+      <x>810</x>
+      <y>580</y>
+      <width>101</width>
       <height>24</height>
      </rect>
     </property>
     <property name="text">
-     <string>Executar</string>
+     <string>Abrir arquivo</string>
     </property>
    </widget>
    <widget class="QLabel" name="srcImageLabel">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>70</y>
-      <width>461</width>
-      <height>211</height>
+      <x>0</x>
+      <y>10</y>
+      <width>901</width>
+      <height>531</height>
      </rect>
     </property>
     <property name="text">
@@ -46,7 +46,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>702</width>
+     <width>933</width>
      <height>30</height>
     </rect>
    </property>
