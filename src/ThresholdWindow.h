@@ -9,9 +9,12 @@
 #define SRC_THRESHOLDWINDOW_H_
 
 #include <QFileDialog>
+#include "ui_Threshold.h"
 
-class ThresholdWindow : public QDialog
+class ThresholdWindow : public QDialog, private Ui::ThresholdWindow
 {
+    Q_OBJECT
+
 public:
 	ThresholdWindow(QWidget *parent);
 	virtual ~ThresholdWindow();

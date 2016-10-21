@@ -10,7 +10,12 @@
 ThresholdWindow::ThresholdWindow(QWidget *parent) :
 	QDialog(parent)
 {
+    setupUi(this);
 	setAttribute( Qt::WA_DeleteOnClose );
+
+    QObject::connect( slider, &QSlider::valueChanged, [this] (int value) {
+    	valueLabel->setText(QString::number(value));
+	});
 }
 
 ThresholdWindow::~ThresholdWindow()
