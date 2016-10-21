@@ -17,8 +17,8 @@
    <widget class="QPushButton" name="buttonExecute">
     <property name="geometry">
      <rect>
-      <x>810</x>
-      <y>580</y>
+      <x>820</x>
+      <y>710</y>
       <width>101</width>
       <height>24</height>
      </rect>
@@ -44,13 +44,26 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>580</y>
+      <y>700</y>
       <width>161</width>
       <height>24</height>
      </rect>
     </property>
     <property name="text">
      <string>Open video capture</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="thresholdButton">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>710</y>
+      <width>101</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Threshold</string>
     </property>
    </widget>
   </widget>

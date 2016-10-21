@@ -13,6 +13,7 @@
 #include <opencv2/opencv.hpp>
 #include <QFileDialog>
 #include "VideoWindow.h"
+#include "ThresholdWindow.h"
 
 using namespace std;
 using namespace cv;
@@ -27,6 +28,13 @@ MainWindow::MainWindow(QWidget *parent)
 		VideoWindow *window = new VideoWindow(this, this);
 		window->show();
 	});
+
+    QObject::connect( thresholdButton, &QPushButton::clicked, [this] () {
+    	ThresholdWindow *window = new ThresholdWindow(this);
+		window->show();
+	});
+
+
     //connect( btInputDirectory, SIGNAL( clicked() ), this, SLOT( selectFolder() ) );
 	//connect( menuSobre, SIGNAL(aboutToShow()), this, SLOT(aboutClicked()) );
 }
