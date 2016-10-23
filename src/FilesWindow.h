@@ -24,7 +24,7 @@ public:
 
 private slots:
 
-	void clicked(const QModelIndex &index);
+	void currentChanged(const QModelIndex &current, const QModelIndex &previous);
 
 private:
 

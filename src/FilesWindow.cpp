@@ -28,7 +28,7 @@ FilesWindow::FilesWindow(QWidget *parent, WindowImagesInterface &windowImages) :
     tree->hideColumn(3);
     expandPath(QDir::currentPath());
 
-    connect( tree, &QAbstractItemView::clicked, this, &FilesWindow::clicked );
+    connect( tree->selectionModel(), &QItemSelectionModel::currentChanged, this, &FilesWindow::currentChanged );
 }
 
 FilesWindow::~FilesWindow()
@@ -46,9 +46,9 @@ void FilesWindow::expandPath(const QString &path)
     }
 }
 
-void FilesWindow::clicked(const QModelIndex &index)
+void FilesWindow::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
-	auto fileName = _model.filePath(index);
+	auto fileName = _model.filePath(current);
 	Mat srcImage = imread( fileName.toLatin1().data(), 1 );
 	_windowImages.setSrcImage(srcImage);
 }
