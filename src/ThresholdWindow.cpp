@@ -12,9 +12,9 @@
 using namespace std;
 using namespace cv;
 
-ThresholdWindow::ThresholdWindow(QWidget *parent, WindowImagesInterface *windowImages) :
+ThresholdWindow::ThresholdWindow(QWidget *parent, WindowImagesInterface &windowImages) :
 	QDialog(parent),
-	_srcImage(windowImages->getSrcImage())
+	_srcImage(windowImages.getSrcImage())
 {
     setupUi(this);
 	setAttribute( Qt::WA_DeleteOnClose );
@@ -27,7 +27,6 @@ ThresholdWindow::ThresholdWindow(QWidget *parent, WindowImagesInterface *windowI
 
 ThresholdWindow::~ThresholdWindow()
 {
-	// TODO Auto-generated destructor stub
 }
 
 void ThresholdWindow::execute(int threshold) {

@@ -18,6 +18,13 @@
 using namespace std;
 using namespace cv;
 
+static void SetLabelImage(QLabel *label, QPixmap &pixmap, int height)
+{
+    pixmap = pixmap.scaledToHeight(height, Qt::SmoothTransformation);
+    label->setPixmap(pixmap);
+    label->show();
+}
+
 MainWindow::MainWindow(QWidget *parent)
 {
     setupUi(this);
@@ -30,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
 	});
 
     QObject::connect( thresholdButton, &QPushButton::clicked, [this] () {
-    	ThresholdWindow *window = new ThresholdWindow(this, this);
+    	ThresholdWindow *window = new ThresholdWindow(this, *this);
 		window->show();
 	});
 
@@ -66,8 +73,8 @@ void MainWindow::setSrcImage(Mat &image)
 							image.cols, image.rows,
 							image.step, QImage::Format_RGB888).rgbSwapped();
 
-	srcImageLabel->setPixmap(QPixmap::fromImage(srcImage));
-	srcImageLabel->show();
+	QPixmap pixmap = QPixmap::fromImage(srcImage);
+	SetLabelImage(srcImageLabel, pixmap, srcImageLabel->minimumHeight());
 }
 
 cv::Mat& MainWindow::getSrcImage()

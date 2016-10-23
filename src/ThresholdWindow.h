@@ -19,12 +19,12 @@ class ThresholdWindow : public QDialog, private Ui::ThresholdWindow
     Q_OBJECT
 
 public:
-	ThresholdWindow(QWidget *parent, WindowImagesInterface *windowImages);
+	ThresholdWindow(QWidget *parent, WindowImagesInterface &windowImages);
 	virtual ~ThresholdWindow();
 
 private:
 
-	cv::Mat _srcImage;
+	cv::Mat &_srcImage;
 
 	void execute(int threshold);
 };
