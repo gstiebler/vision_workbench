@@ -59,18 +59,19 @@ void MainWindow::executeClicked()
 	{
 		printf("teste: %s\n", dialog.selectedFiles()[0].toLatin1().data());
 
-		_srcImage = imread( dialog.selectedFiles()[0].toLatin1().data(), 1 );
-		if ( !_srcImage.data )
+		Mat srcImage = imread( dialog.selectedFiles()[0].toLatin1().data(), 1 );
+		if ( !srcImage.data )
 		{
 			printf("No image data \n");
 			return;
 		}
-		setSrcImage(_srcImage);
+		setSrcImage(srcImage);
 	}
 }
 
 void MainWindow::setSrcImage(Mat &image)
 {
+	_srcImage = image;
 	QImage srcImage = QImage((const unsigned char*)(image.data),
 							image.cols, image.rows,
 							image.step, QImage::Format_RGB888).rgbSwapped();

@@ -6,8 +6,11 @@
  */
 
 #include "FilesWindow.h"
+#include <opencv2/opencv.hpp>
+#include "MainWindow.h"
 
 using namespace std;
+using namespace cv;
 
 FilesWindow::FilesWindow(QWidget *parent, WindowImagesInterface &windowImages) :
 	QDialog(parent),
@@ -24,6 +27,8 @@ FilesWindow::FilesWindow(QWidget *parent, WindowImagesInterface &windowImages) :
     tree->hideColumn(2);
     tree->hideColumn(3);
     expandPath(QDir::currentPath());
+
+    connect( tree, &QAbstractItemView::clicked, this, &FilesWindow::clicked );
 }
 
 FilesWindow::~FilesWindow()
@@ -39,5 +44,12 @@ void FilesWindow::expandPath(const QString &path)
     	base += "/" + item;
         tree->setExpanded(_model.index(base), true);
     }
+}
+
+void FilesWindow::clicked(const QModelIndex &index)
+{
+	auto fileName = _model.filePath(index);
+	Mat srcImage = imread( fileName.toLatin1().data(), 1 );
+	_windowImages.setSrcImage(srcImage);
 }
 

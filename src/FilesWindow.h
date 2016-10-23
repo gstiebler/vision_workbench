@@ -10,9 +10,9 @@
 
 #include <QFileDialog>
 #include "ui_Files.h"
+#include <QFileSystemModel>
 
 class WindowImagesInterface;
-#include <QFileSystemModel>
 
 class FilesWindow : public QDialog, private Ui::FilesWindow
 {
@@ -21,6 +21,10 @@ class FilesWindow : public QDialog, private Ui::FilesWindow
 public:
 	FilesWindow(QWidget *parent, WindowImagesInterface &windowImages);
 	virtual ~FilesWindow();
+
+private slots:
+
+	void clicked(const QModelIndex &index);
 
 private:
 
