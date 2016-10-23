@@ -14,6 +14,7 @@ using namespace cv;
 
 ThresholdWindow::ThresholdWindow(QWidget *parent, WindowImagesInterface &windowImages) :
 	QDialog(parent),
+	_windowImages(windowImages),
 	_srcImage(windowImages.getSrcImage())
 {
     setupUi(this);
@@ -29,7 +30,11 @@ ThresholdWindow::~ThresholdWindow()
 {
 }
 
-void ThresholdWindow::execute(int threshold) {
-	Mat srcGray;
+void ThresholdWindow::execute(int thresholdValue) {
+	int threshold_type = 0;
+	Mat srcGray, dstGray, dstColor;
 	cvtColor( _srcImage, srcGray, CV_BGR2GRAY );
+	threshold( srcGray, dstGray, thresholdValue, 255, threshold_type );
+	cvtColor(dstGray, dstColor, CV_GRAY2RGB);
+	_windowImages.setDstImage(dstColor);
 }

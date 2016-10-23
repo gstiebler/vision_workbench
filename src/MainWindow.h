@@ -17,6 +17,7 @@ class WindowImagesInterface
 {
 public:
 	virtual void setSrcImage(cv::Mat &image) = 0;
+	virtual void setDstImage(cv::Mat &image) = 0;
 	virtual cv::Mat& getSrcImage() = 0;
 };
 
@@ -29,6 +30,7 @@ public:
     virtual ~MainWindow();
 
 	void setSrcImage(cv::Mat &image);
+	void setDstImage(cv::Mat &image);
 	cv::Mat& getSrcImage();
 
 signals:

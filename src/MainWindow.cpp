@@ -77,6 +77,16 @@ void MainWindow::setSrcImage(Mat &image)
 	SetLabelImage(srcImageLabel, pixmap, srcImageLabel->minimumHeight());
 }
 
+void MainWindow::setDstImage(Mat &image)
+{
+	QImage dstImage = QImage((const unsigned char*)(image.data),
+							image.cols, image.rows,
+							image.step, QImage::Format_RGB888).rgbSwapped();
+
+	QPixmap pixmap = QPixmap::fromImage(dstImage);
+	SetLabelImage(dstImageLabel, pixmap, dstImageLabel->minimumHeight());
+}
+
 cv::Mat& MainWindow::getSrcImage()
 {
 	return _srcImage;

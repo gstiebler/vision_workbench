@@ -24,9 +24,10 @@ public:
 
 private:
 
+	WindowImagesInterface &_windowImages;
 	cv::Mat &_srcImage;
 
-	void execute(int threshold);
+	void execute(int thresholdValue);
 };
 
 #endif /* SRC_THRESHOLDWINDOW_H_ */
