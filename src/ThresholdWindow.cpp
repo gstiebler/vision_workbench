@@ -35,6 +35,13 @@ void ThresholdWindow::execute(int thresholdValue) {
 	Mat srcGray, dstGray, dstColor;
 	cvtColor( _srcImage, srcGray, CV_BGR2GRAY );
 	threshold( srcGray, dstGray, thresholdValue, 255, threshold_type );
-	cvtColor(dstGray, dstColor, CV_GRAY2RGB);
+
+	vector<Mat> bgr(3);
+	//split(_srcImage, bgr);//split source
+	bgr[0] = srcGray;
+	bgr[1] = dstGray;
+	bgr[2] = dstGray;
+	merge(bgr, dstColor);
+
 	_windowImages.setDstImage(dstColor);
 }

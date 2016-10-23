@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>968</width>
-    <height>287</height>
+    <width>1008</width>
+    <height>913</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -69,6 +69,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="filesWindowButton">
+        <property name="text">
+         <string>Files Window</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="thresholdButton">
         <property name="text">
          <string>Threshold</string>
@@ -104,7 +111,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>968</width>
+     <width>1008</width>
      <height>30</height>
     </rect>
    </property>

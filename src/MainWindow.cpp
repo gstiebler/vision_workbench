@@ -14,6 +14,7 @@
 #include <QFileDialog>
 #include "VideoWindow.h"
 #include "ThresholdWindow.h"
+#include "FilesWindow.h"
 
 using namespace std;
 using namespace cv;
@@ -41,9 +42,10 @@ MainWindow::MainWindow(QWidget *parent)
 		window->show();
 	});
 
-
-    //connect( btInputDirectory, SIGNAL( clicked() ), this, SLOT( selectFolder() ) );
-	//connect( menuSobre, SIGNAL(aboutToShow()), this, SLOT(aboutClicked()) );
+    QObject::connect( filesWindowButton, &QPushButton::clicked, [this] () {
+    	FilesWindow *window = new FilesWindow(this, *this);
+		window->show();
+	});
 }
 
 MainWindow::~MainWindow()

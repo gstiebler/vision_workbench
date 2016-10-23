@@ -24,6 +24,7 @@ set( SOURCES
     ${SRC_BASE}/MainWindow.cpp
     ${SRC_BASE}/VideoWindow.cpp
     ${SRC_BASE}/ThresholdWindow.cpp
+    ${SRC_BASE}/FilesWindow.cpp
 )
 
 set( ALL_SOURCES 
@@ -34,12 +35,14 @@ SET( QT_UIS
      ${QT_UI_BASE_PATH}/MainWindow.ui
      ${QT_UI_BASE_PATH}/Video.ui
      ${QT_UI_BASE_PATH}/Threshold.ui
+     ${QT_UI_BASE_PATH}/Files.ui
 )
                 
 QT5_WRAP_CPP(cw_HEADERS_MOC 
     ${SRC_BASE}/MainWindow.h
     ${SRC_BASE}/VideoWindow.h
     ${SRC_BASE}/ThresholdWindow.h
+    ${SRC_BASE}/FilesWindow.h
 )
                           
 set( MOC_BASE_DIR __/src )
@@ -48,6 +51,7 @@ source_group( "Source Files\\Moc" FILES
     ${MOC_BASE_DIR}/interface/moc_MainWindow.cpp 
     ${MOC_BASE_DIR}/interface/moc_VideoWindow.cpp 
     ${MOC_BASE_DIR}/interface/moc_ThresholdWindow.cpp 
+    ${MOC_BASE_DIR}/interface/moc_FilesWindow.cpp 
 )
                             
 QT5_WRAP_UI(QTTEST_GEN_UIS ${QT_UIS} )             

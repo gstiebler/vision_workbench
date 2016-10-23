@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>FilesWindow</class>
+ <widget class="QDialog" name="FilesWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>522</width>
-    <height>70</height>
+    <width>447</width>
+    <height>393</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,11 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QSlider" name="horizontalSlider">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
+    <widget class="QTreeView" name="tree"/>
    </item>
   </layout>
  </widget>
