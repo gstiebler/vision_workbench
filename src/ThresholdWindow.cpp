@@ -7,6 +7,10 @@
 
 #include "ThresholdWindow.h"
 #include "MainWindow.h"
+#include "opencv2/imgproc/imgproc.hpp"
+
+using namespace std;
+using namespace cv;
 
 ThresholdWindow::ThresholdWindow(QWidget *parent, WindowImagesInterface *windowImages) :
 	QDialog(parent)
@@ -28,5 +32,6 @@ ThresholdWindow::~ThresholdWindow()
 }
 
 void ThresholdWindow::execute(int threshold) {
-
+	Mat srcGray;
+	cvtColor( *_srcImage, srcGray, CV_BGR2GRAY );
 }

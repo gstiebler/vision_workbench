@@ -18,8 +18,7 @@
 using namespace std;
 using namespace cv;
 
-MainWindow::MainWindow(QWidget *parent) :
-		_srcImage()
+MainWindow::MainWindow(QWidget *parent)
 {
     setupUi(this);
 
