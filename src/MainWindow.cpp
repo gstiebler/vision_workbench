@@ -70,7 +70,7 @@ void MainWindow::setSrcImage(Mat &image)
 	srcImageLabel->show();
 }
 
-cv::Mat* MainWindow::getSrcImage()
+cv::Mat& MainWindow::getSrcImage()
 {
-	return &_srcImage;
+	return _srcImage;
 }

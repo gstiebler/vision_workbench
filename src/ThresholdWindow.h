@@ -24,7 +24,7 @@ public:
 
 private:
 
-	cv::Mat *_srcImage;
+	cv::Mat _srcImage;
 
 	void execute(int threshold);
 };

@@ -13,7 +13,8 @@ using namespace std;
 using namespace cv;
 
 ThresholdWindow::ThresholdWindow(QWidget *parent, WindowImagesInterface *windowImages) :
-	QDialog(parent)
+	QDialog(parent),
+	_srcImage(windowImages->getSrcImage())
 {
     setupUi(this);
 	setAttribute( Qt::WA_DeleteOnClose );
@@ -22,8 +23,6 @@ ThresholdWindow::ThresholdWindow(QWidget *parent, WindowImagesInterface *windowI
     	valueLabel->setText(QString::number(value));
     	execute(value);
 	});
-
-    _srcImage = windowImages->getSrcImage();
 }
 
 ThresholdWindow::~ThresholdWindow()
@@ -33,5 +32,5 @@ ThresholdWindow::~ThresholdWindow()
 
 void ThresholdWindow::execute(int threshold) {
 	Mat srcGray;
-	cvtColor( *_srcImage, srcGray, CV_BGR2GRAY );
+	cvtColor( _srcImage, srcGray, CV_BGR2GRAY );
 }
