@@ -19,6 +19,7 @@ public:
 	virtual void setSrcImage(cv::Mat &image) = 0;
 	virtual void setDstImage(cv::Mat &image) = 0;
 	virtual cv::Mat& getSrcImage() = 0;
+	virtual void setStatus(std::string status) = 0;
 };
 
 class MainWindow : public QMainWindow, private Ui::MainWindow, public WindowImagesInterface
@@ -32,10 +33,9 @@ public:
 	void setSrcImage(cv::Mat &image);
 	void setDstImage(cv::Mat &image);
 	cv::Mat& getSrcImage();
+	void setStatus(std::string status);
 
 signals:
-
-    //void executeButtonClicked();
 
 private slots:
 

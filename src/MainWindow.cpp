@@ -78,6 +78,9 @@ void MainWindow::setSrcImage(Mat &image)
 
 	QPixmap pixmap = QPixmap::fromImage(srcImage);
 	SetLabelImage(srcImageLabel, pixmap, srcImageLabel->minimumHeight());
+	char status[100];
+	sprintf(status, "%d x %d", image.rows, image.cols);
+	setStatus(status);
 }
 
 void MainWindow::setDstImage(Mat &image)
@@ -93,4 +96,9 @@ void MainWindow::setDstImage(Mat &image)
 cv::Mat& MainWindow::getSrcImage()
 {
 	return _srcImage;
+}
+
+void MainWindow::setStatus(std::string status)
+{
+	statusBar()->showMessage(tr(status.c_str()));
 }

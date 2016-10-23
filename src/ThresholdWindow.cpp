@@ -8,6 +8,7 @@
 #include "ThresholdWindow.h"
 #include "MainWindow.h"
 #include "opencv2/imgproc/imgproc.hpp"
+#include "TimeMeasure.h"
 
 using namespace std;
 using namespace cv;
@@ -31,6 +32,8 @@ ThresholdWindow::~ThresholdWindow()
 }
 
 void ThresholdWindow::execute(int thresholdValue) {
+	TimeMeasure tm;
+
 	int threshold_type = 0;
 	Mat srcGray, dstGray, dstColor;
 	cvtColor( _srcImage, srcGray, CV_BGR2GRAY );
@@ -42,6 +45,8 @@ void ThresholdWindow::execute(int thresholdValue) {
 	bgr[1] = dstGray;
 	bgr[2] = dstGray;
 	merge(bgr, dstColor);
+
+	_windowImages.setStatus(tm.getTime());
 
 	_windowImages.setDstImage(dstColor);
 }

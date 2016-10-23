@@ -25,6 +25,7 @@ set( SOURCES
     ${SRC_BASE}/VideoWindow.cpp
     ${SRC_BASE}/ThresholdWindow.cpp
     ${SRC_BASE}/FilesWindow.cpp
+    ${SRC_BASE}/TimeMeasure.cpp
 )
 
 set( ALL_SOURCES 
