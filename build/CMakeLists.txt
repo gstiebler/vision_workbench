@@ -33,6 +33,7 @@ set( ALL_SOURCES
 SET( QT_UIS
      ${QT_UI_BASE_PATH}/MainWindow.ui
      ${QT_UI_BASE_PATH}/Video.ui
+     ${QT_UI_BASE_PATH}/Threshold.ui
 )
                 
 QT5_WRAP_CPP(cw_HEADERS_MOC 

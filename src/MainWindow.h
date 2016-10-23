@@ -17,6 +17,7 @@ class WindowImagesInterface
 {
 public:
 	virtual void setSrcImage(cv::Mat &image) = 0;
+	virtual cv::Mat* getSrcImage() = 0;
 };
 
 class MainWindow : public QMainWindow, private Ui::MainWindow, public WindowImagesInterface
@@ -28,6 +29,7 @@ public:
     virtual ~MainWindow();
 
 	void setSrcImage(cv::Mat &image);
+	cv::Mat* getSrcImage();
 
 signals:
 
@@ -38,6 +40,8 @@ private slots:
 	void executeClicked();
 
 private:
+
+	cv::Mat _srcImage;
 
 };
 

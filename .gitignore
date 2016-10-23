@@ -3,3 +3,5 @@ build/__/*
 obj/*
 bin/*
 *.json
+/.cproject
+/.project

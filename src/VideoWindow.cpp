@@ -5,7 +5,7 @@
 using namespace std;
 using namespace cv;
 
-VideoWindow::VideoWindow(WindowImagesInterface *windowImages, QWidget *parent = 0) :
+VideoWindow::VideoWindow(WindowImagesInterface *windowImages, QWidget *parent) :
     _windowImages(windowImages)
 {
     setupUi(this);
@@ -13,7 +13,7 @@ VideoWindow::VideoWindow(WindowImagesInterface *windowImages, QWidget *parent = 
 	setAttribute( Qt::WA_DeleteOnClose );
 
     connect( openFileButton, SIGNAL( clicked() ), this, SLOT( openFileClicked() ) );
-    connect( frameSlider, SIGNAL( sliderMoved() ), this, SLOT( openFileClicked() ) );
+    connect( frameSlider, SIGNAL( valueChanged(int) ), this, SLOT( sliderMoved(int) ) );
 }
 
 VideoWindow::~VideoWindow()
@@ -32,14 +32,9 @@ void VideoWindow::openFileClicked()
         double count = _cap->get(CV_CAP_PROP_FRAME_COUNT);
         frameSlider->setMaximum(count);
 
-		Mat image;
-		image = imread( dialog.selectedFiles()[0].toLatin1().data(), 1 );
-		if ( !image.data )
-		{
-			printf("No image data \n");
-			return;
-		}
-		_windowImages->setSrcImage(image);
+		Mat frame;
+		_cap->read(frame);
+		_windowImages->setSrcImage(frame);
 	}
 }
 
@@ -47,8 +42,8 @@ void VideoWindow::sliderMoved(int value)
 {
     printf("%d", value);
 
-    _cap->set(CV_CAP_PROP_POS_FRAMES, value - 1); //Set index to last frame
+    /*_cap->set(CV_CAP_PROP_POS_FRAMES, value - 1); //Set index to last frame
     Mat frame;
     bool success = _cap->read(frame); 
-	_windowImages->setSrcImage(frame);
+	_windowImages->setSrcImage(frame);*/
 }

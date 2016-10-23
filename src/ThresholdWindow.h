@@ -10,14 +10,23 @@
 
 #include <QFileDialog>
 #include "ui_Threshold.h"
+#include <opencv2/opencv.hpp>
+
+class WindowImagesInterface;
 
 class ThresholdWindow : public QDialog, private Ui::ThresholdWindow
 {
     Q_OBJECT
 
 public:
-	ThresholdWindow(QWidget *parent);
+	ThresholdWindow(QWidget *parent, WindowImagesInterface *windowImages);
 	virtual ~ThresholdWindow();
+
+private:
+
+	cv::Mat *_srcImage;
+
+	void execute(int threshold);
 };
 
 #endif /* SRC_THRESHOLDWINDOW_H_ */

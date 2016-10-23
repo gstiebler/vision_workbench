@@ -18,7 +18,8 @@
 using namespace std;
 using namespace cv;
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget *parent) :
+		_srcImage()
 {
     setupUi(this);
 
@@ -30,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
 	});
 
     QObject::connect( thresholdButton, &QPushButton::clicked, [this] () {
-    	ThresholdWindow *window = new ThresholdWindow(this);
+    	ThresholdWindow *window = new ThresholdWindow(this, this);
 		window->show();
 	});
 
@@ -50,14 +51,13 @@ void MainWindow::executeClicked()
 	{
 		printf("teste: %s\n", dialog.selectedFiles()[0].toLatin1().data());
 
-		Mat image;
-		image = imread( dialog.selectedFiles()[0].toLatin1().data(), 1 );
-		if ( !image.data )
+		_srcImage = imread( dialog.selectedFiles()[0].toLatin1().data(), 1 );
+		if ( !_srcImage.data )
 		{
 			printf("No image data \n");
 			return;
 		}
-		setSrcImage(image);
+		setSrcImage(_srcImage);
 	}
 }
 
@@ -69,4 +69,9 @@ void MainWindow::setSrcImage(Mat &image)
 
 	srcImageLabel->setPixmap(QPixmap::fromImage(srcImage));
 	srcImageLabel->show();
+}
+
+cv::Mat* MainWindow::getSrcImage()
+{
+	return &_srcImage;
 }

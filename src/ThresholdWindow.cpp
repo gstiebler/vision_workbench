@@ -6,8 +6,9 @@
  */
 
 #include "ThresholdWindow.h"
+#include "MainWindow.h"
 
-ThresholdWindow::ThresholdWindow(QWidget *parent) :
+ThresholdWindow::ThresholdWindow(QWidget *parent, WindowImagesInterface *windowImages) :
 	QDialog(parent)
 {
     setupUi(this);
@@ -15,7 +16,10 @@ ThresholdWindow::ThresholdWindow(QWidget *parent) :
 
     QObject::connect( slider, &QSlider::valueChanged, [this] (int value) {
     	valueLabel->setText(QString::number(value));
+    	execute(value);
 	});
+
+    _srcImage = windowImages->getSrcImage();
 }
 
 ThresholdWindow::~ThresholdWindow()
@@ -23,3 +27,6 @@ ThresholdWindow::~ThresholdWindow()
 	// TODO Auto-generated destructor stub
 }
 
+void ThresholdWindow::execute(int threshold) {
+
+}
