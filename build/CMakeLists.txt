@@ -26,6 +26,9 @@ set( SOURCES
     ${SRC_BASE}/ThresholdWindow.cpp
     ${SRC_BASE}/FilesWindow.cpp
     ${SRC_BASE}/TimeMeasure.cpp
+    ${SRC_BASE}/ImageProcessing/RegionGrowthLumOrdered/RegionGrowthLumOrdered.cpp
+    ${SRC_BASE}/ImageProcessing/RegionGrowthLumOrdered/Region.cpp
+    ${SRC_BASE}/ImageProcessing/RegionGrowthLumOrdered/RegionsManager.cpp
 )
 
 set( ALL_SOURCES 
