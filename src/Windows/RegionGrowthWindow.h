@@ -26,7 +26,7 @@ private:
 	WindowImagesInterface &_windowImages;
 	cv::Mat &_srcImage;
 
-	void execute();
+	void executeClicked();
 };
 
 #endif /* SRC_WINDOWS_REGIONGROWTHWINDOW_H_ */

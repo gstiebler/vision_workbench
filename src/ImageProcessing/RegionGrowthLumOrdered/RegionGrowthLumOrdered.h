@@ -11,6 +11,8 @@
 #include <opencv2/opencv.hpp>
 #include <vector>
 
+void execRegionGrowthLumOrdered(cv::Mat &srcImg);
+
 class RegionGrowthLumOrdered
 {
 public:

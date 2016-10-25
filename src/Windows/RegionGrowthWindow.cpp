@@ -7,6 +7,7 @@
 
 #include "RegionGrowthWindow.h"
 #include "MainWindow.h"
+#include "ImageProcessing/RegionGrowthLumOrdered/RegionGrowthLumOrdered.h"
 
 RegionGrowthWindow::RegionGrowthWindow(QWidget *parent, WindowImagesInterface &windowImages) :
 	QDialog(parent),
@@ -16,9 +17,15 @@ RegionGrowthWindow::RegionGrowthWindow(QWidget *parent, WindowImagesInterface &w
 	setupUi(this);
 	setAttribute( Qt::WA_DeleteOnClose );
 
+    connect( executeButton, &QPushButton::clicked, this, &RegionGrowthWindow::executeClicked );
+
 }
 
 RegionGrowthWindow::~RegionGrowthWindow()
 {
 }
 
+void RegionGrowthWindow::executeClicked()
+{
+	execRegionGrowthLumOrdered(_srcImage);
+}
