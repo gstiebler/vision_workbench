@@ -26,6 +26,7 @@ set( SOURCES
     ${SRC_BASE}/Windows/VideoWindow.cpp
     ${SRC_BASE}/Windows/ThresholdWindow.cpp
     ${SRC_BASE}/Windows/FilesWindow.cpp
+    ${SRC_BASE}/Windows/RegionGrowthWindow.cpp
     ${SRC_BASE}/ImageProcessing/RegionGrowthLumOrdered/RegionGrowthLumOrdered.cpp
     ${SRC_BASE}/ImageProcessing/RegionGrowthLumOrdered/Region.cpp
     ${SRC_BASE}/ImageProcessing/RegionGrowthLumOrdered/RegionsManager.cpp
@@ -40,6 +41,7 @@ SET( QT_UIS
      ${QT_UI_BASE_PATH}/Video.ui
      ${QT_UI_BASE_PATH}/Threshold.ui
      ${QT_UI_BASE_PATH}/Files.ui
+     ${QT_UI_BASE_PATH}/RegionGrowth.ui
 )
                             
 QT5_WRAP_UI(QTTEST_GEN_UIS ${QT_UIS} )             

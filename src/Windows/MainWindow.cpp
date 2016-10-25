@@ -15,6 +15,7 @@
 #include "VideoWindow.h"
 #include "ThresholdWindow.h"
 #include "FilesWindow.h"
+#include "RegionGrowthWindow.h"
 
 using namespace std;
 using namespace cv;
@@ -44,6 +45,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     QObject::connect( filesWindowButton, &QPushButton::clicked, [this] () {
     	FilesWindow *window = new FilesWindow(this, *this);
+		window->show();
+	});
+
+    QObject::connect( regionGrowthWindowButton, &QPushButton::clicked, [this] () {
+    	RegionGrowthWindow *window = new RegionGrowthWindow(this, *this);
 		window->show();
 	});
 }

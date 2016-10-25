@@ -90,6 +90,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="regionGrowthWindowButton">
+        <property name="text">
+         <string>Region growth</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
