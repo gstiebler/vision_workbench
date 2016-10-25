@@ -27,7 +27,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow, public WindowImag
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = 0);
+    MainWindow(std::string initialImage);
     virtual ~MainWindow();
 
 	void setSrcImage(cv::Mat &image);

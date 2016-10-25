@@ -6,7 +6,12 @@ int main (int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    MainWindow *mainWindow = new MainWindow(nullptr);
+    std::string initialImage;
+    if(argc > 1)
+    {
+    	initialImage = argv[1];
+    }
+    MainWindow *mainWindow = new MainWindow(initialImage);
     mainWindow->show();
     return app.exec();
 }

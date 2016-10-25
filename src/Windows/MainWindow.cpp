@@ -27,7 +27,7 @@ static void SetLabelImage(QLabel *label, QPixmap &pixmap, int height)
     label->show();
 }
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(string initialImage)
 {
     setupUi(this);
 
@@ -52,6 +52,12 @@ MainWindow::MainWindow(QWidget *parent)
     	RegionGrowthWindow *window = new RegionGrowthWindow(this, *this);
 		window->show();
 	});
+
+    if(initialImage != "")
+    {
+		Mat srcImage = imread( initialImage.c_str(), 1 );
+		setSrcImage(srcImage);
+    }
 }
 
 MainWindow::~MainWindow()
