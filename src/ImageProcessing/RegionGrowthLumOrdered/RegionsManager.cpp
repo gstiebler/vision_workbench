@@ -23,12 +23,15 @@ RegionsManager::RegionsManager( int width, int height )
 
 RegionsManager::~RegionsManager()
 {
+	for(auto &region : _regions)
+	{
+		delete region;
+	}
 }
 
 Region* RegionsManager::getRegion( const Point &point )
 {
-	auto &temp = _regionOfPixel[point.y];
-	Region *region = temp[point.x];
+	Region *region = _regionOfPixel[point.y][point.x];
 	if( region )
 		return region->finalRegion();
 	else
@@ -42,8 +45,8 @@ void RegionsManager::setRegion( const Point &point, Region *region )
 
 void RegionsManager::createRegion( const Point &point )
 {
-	Region region( this, _regions.size() + 1 );
-	region.addPoint( point );
+	Region *region = new Region( this, _regions.size() + 1 );
+	region->addPoint(point);
 	_regions.push_back( region );
 }
 

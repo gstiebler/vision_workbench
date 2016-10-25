@@ -25,6 +25,8 @@ public:
 
 	Region(const Region &other);
 
+	~Region();
+
 	/**
 	 * Adds a point to the region
 	 * @param[in] point The point to be added

@@ -59,7 +59,7 @@ public:
 private:
 
 	/** All the regions */
-	std::vector<Region> _regions;
+	std::vector<Region*> _regions;
 
 	/** Region of each pixel */
 	std::vector< std::vector< Region* > > _regionOfPixel;

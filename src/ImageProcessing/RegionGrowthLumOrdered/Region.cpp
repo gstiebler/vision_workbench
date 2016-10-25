@@ -32,6 +32,10 @@ Region::Region(const Region &other) :
 {
 }
 
+Region::~Region()
+{
+}
+
 void Region::addPoint( const Point &point )
 {
 	_points.push_back( point );
