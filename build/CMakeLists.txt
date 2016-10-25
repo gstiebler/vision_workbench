@@ -21,11 +21,11 @@ set(QT_UI_BASE_PATH ../data/qt)
 
 set( SOURCES
     ${SRC_BASE}/main.cpp
-    ${SRC_BASE}/MainWindow.cpp
-    ${SRC_BASE}/VideoWindow.cpp
-    ${SRC_BASE}/ThresholdWindow.cpp
-    ${SRC_BASE}/FilesWindow.cpp
     ${SRC_BASE}/TimeMeasure.cpp
+    ${SRC_BASE}/Windows/MainWindow.cpp
+    ${SRC_BASE}/Windows/VideoWindow.cpp
+    ${SRC_BASE}/Windows/ThresholdWindow.cpp
+    ${SRC_BASE}/Windows/FilesWindow.cpp
     ${SRC_BASE}/ImageProcessing/RegionGrowthLumOrdered/RegionGrowthLumOrdered.cpp
     ${SRC_BASE}/ImageProcessing/RegionGrowthLumOrdered/Region.cpp
     ${SRC_BASE}/ImageProcessing/RegionGrowthLumOrdered/RegionsManager.cpp
@@ -41,8 +41,6 @@ SET( QT_UIS
      ${QT_UI_BASE_PATH}/Threshold.ui
      ${QT_UI_BASE_PATH}/Files.ui
 )
-                          
-set( MOC_BASE_DIR __/src )
                             
 QT5_WRAP_UI(QTTEST_GEN_UIS ${QT_UIS} )             
                 
@@ -50,7 +48,6 @@ include_directories(${SRC_BASE} ${CMAKE_CURRENT_BINARY_DIR} )
                      
 add_executable(qt_proj_exe ${SRC_BASE}/main.cpp 
 					${ALL_SOURCES}
-                    ${cw_HEADERS_MOC}
                     ${QTTEST_GEN_UIS})
                     
                     
