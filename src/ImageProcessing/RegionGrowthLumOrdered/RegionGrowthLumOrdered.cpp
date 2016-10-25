@@ -72,7 +72,7 @@ void RegionGrowthLumOrdered::exec()
 	initDirections(vX, vY);
 	RegionsManager regionsManager( _srcImg.cols, _srcImg.rows );
 
-	for(int lum(0); lum < 255; ++lum)
+	for(int lum(0); lum < 256; ++lum)
 	{
 		vector<Point> &currentLums = _lums[lum];
 		int size = (int) currentLums.size();
@@ -81,21 +81,14 @@ void RegionGrowthLumOrdered::exec()
 			Point &point = currentLums[n];
 			set<Region*> nRegions;
 
-			bool hadRegionOnLast = false;
 			for(int k(0); k < 8; ++k)
 			{
 				Point nPoint(point.x + vX[k], point.y + vY[k]);
 				Region* region = regionsManager.getRegion( nPoint );
-				if( region != nullptr )
+				if( region )
 				{
-					if( !hadRegionOnLast )
-					{
-						nRegions.insert( region );
-					}
-					hadRegionOnLast = true;
+					nRegions.insert( region );
 				}
-				else
-					hadRegionOnLast = false;
 			}
 
 			if( nRegions.size() == 0 )

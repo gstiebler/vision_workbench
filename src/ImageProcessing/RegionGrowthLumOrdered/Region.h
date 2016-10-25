@@ -47,8 +47,6 @@ private:
 	/** The unique and only regions manager */
 	RegionsManager *_regionsManager;
 
-	bool _active;
-
 	Region *_mergedRegion;
 };
 

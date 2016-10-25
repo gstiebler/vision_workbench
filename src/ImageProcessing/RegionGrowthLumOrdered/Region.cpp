@@ -16,7 +16,6 @@ using namespace cv;
 Region::Region( RegionsManager *regionsManager, int id ) :
 	_regionsManager( regionsManager ),
 	_id( id ),
-	_active( true ),
 	_xMin( 10000000 ),
 	_xMax( -1 ),
 	_mergedRegion( nullptr )
@@ -39,8 +38,6 @@ void Region::addPoint( const Point &point )
 
 void Region::merge( Region *other )
 {
-	_active = false;
-
 	for(int n(0); n < _points.size(); ++n)
 		_regionsManager->setRegion( _points[n], other );
 
@@ -64,8 +61,8 @@ Region* Region::finalRegion()
 {
 	assert(this != _mergedRegion);
 
-	if( _active )
-		return this;
-	else
+	if( _mergedRegion )
 		return _mergedRegion->finalRegion();
+	else
+		return this;
 }
