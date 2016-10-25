@@ -22,6 +22,16 @@ Region::Region( RegionsManager *regionsManager, int id ) :
 {
 }
 
+Region::Region(const Region &other) :
+		_xMin(other._xMin),
+		_xMax(other._xMax),
+		_id(other._id),
+		_points(other._points),
+		_regionsManager(other._regionsManager),
+		_mergedRegion(other._mergedRegion)
+{
+}
+
 void Region::addPoint( const Point &point )
 {
 	_points.push_back( point );

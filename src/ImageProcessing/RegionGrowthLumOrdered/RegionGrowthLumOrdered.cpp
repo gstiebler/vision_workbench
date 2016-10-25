@@ -8,7 +8,6 @@
 #include "RegionGrowthLumOrdered.h"
 #include <set>
 #include "Region.h"
-#include "RegionsManager.h"
 
 using namespace std;
 using namespace cv;
@@ -24,7 +23,8 @@ RegionGrowthLumOrdered::~RegionGrowthLumOrdered()
 }
 
 RegionGrowthLumOrdered::RegionGrowthLumOrdered(Mat &srcImg) :
-		_srcImg(srcImg)
+		_srcImg(srcImg),
+		_regionsManager( _srcImg.cols, _srcImg.rows )
 {
 }
 
@@ -68,9 +68,7 @@ void RegionGrowthLumOrdered::initDirections(char vX[8], char vY[8])
 void RegionGrowthLumOrdered::exec()
 {
 	initLums(_srcImg);
-	char vX[8], vY[8];
-	initDirections(vX, vY);
-	RegionsManager regionsManager( _srcImg.cols, _srcImg.rows );
+	initDirections(_vX, _vY);
 
 	for(int lum(0); lum < 256; ++lum)
 	{
@@ -79,34 +77,39 @@ void RegionGrowthLumOrdered::exec()
 		for(int n(0); n < size; ++n)
 		{
 			Point &point = currentLums[n];
-			set<Region*> nRegions;
+			processPoint(point);
+		}
+	}
+}
 
-			for(int k(0); k < 8; ++k)
+void RegionGrowthLumOrdered::processPoint(const cv::Point &point)
+{
+	set<Region*> nRegions;
+
+	for(int k(0); k < 8; ++k)
+	{
+		Point nPoint(point.x + _vX[k], point.y + _vY[k]);
+		Region* region = _regionsManager.getRegion( nPoint );
+		if( region )
+		{
+			nRegions.insert( region );
+		}
+	}
+
+	if( nRegions.size() == 0 )
+		_regionsManager.createRegion( point );
+	else if ( nRegions.size() == 1 )
+		(*(nRegions.begin()))->addPoint( point );
+	else
+	{
+		for( auto &regionL1 : nRegions )
+		{
+			for( auto &regionL2 : nRegions )
 			{
-				Point nPoint(point.x + vX[k], point.y + vY[k]);
-				Region* region = regionsManager.getRegion( nPoint );
-				if( region )
-				{
-					nRegions.insert( region );
-				}
-			}
+				if(regionL1 == regionL2)
+					continue;
 
-			if( nRegions.size() == 0 )
-				regionsManager.createRegion( point );
-			else if ( nRegions.size() == 1 )
-				(*(nRegions.begin()))->addPoint( point );
-			else
-			{
-				for( auto &regionL1 : nRegions )
-				{
-					for( auto &regionL2 : nRegions )
-					{
-						if(regionL1 == regionL2)
-							continue;
-
-						regionsManager.mergeRegions( regionL1, regionL2, point );
-					}
-				}
+				_regionsManager.mergeRegions( regionL1, regionL2, point );
 			}
 		}
 	}

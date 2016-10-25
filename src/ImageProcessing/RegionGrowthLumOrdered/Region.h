@@ -23,6 +23,8 @@ public:
 	 */
 	Region( RegionsManager *regionsManager, int id );
 
+	Region(const Region &other);
+
 	/**
 	 * Adds a point to the region
 	 * @param[in] point The point to be added

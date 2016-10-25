@@ -54,7 +54,7 @@ public:
 	 * @param[in] region1 First region
 	 * @param[in] region2 Second region
 	 */
-	static void mergeRegions( Region *region1, Region *region2, cv::Point &point );
+	static void mergeRegions( Region *region1, Region *region2, const cv::Point &point );
 
 private:
 

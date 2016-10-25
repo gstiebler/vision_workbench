@@ -27,7 +27,8 @@ RegionsManager::~RegionsManager()
 
 Region* RegionsManager::getRegion( const Point &point )
 {
-	Region *region = _regionOfPixel[point.y][point.x];
+	auto &temp = _regionOfPixel[point.y];
+	Region *region = temp[point.x];
 	if( region )
 		return region->finalRegion();
 	else
@@ -42,11 +43,11 @@ void RegionsManager::setRegion( const Point &point, Region *region )
 void RegionsManager::createRegion( const Point &point )
 {
 	Region region( this, _regions.size() + 1 );
-	_regions.push_back( region );
 	region.addPoint( point );
+	_regions.push_back( region );
 }
 
-void RegionsManager::mergeRegions( Region *region1, Region *region2, Point &point )
+void RegionsManager::mergeRegions( Region *region1, Region *region2, const Point &point )
 {
 	region1 = region1->finalRegion();
 	region2 = region2->finalRegion();
