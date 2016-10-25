@@ -19,7 +19,7 @@ Region::Region( RegionsManager *regionsManager, int id ) :
 	_active( true ),
 	_xMin( 10000000 ),
 	_xMax( -1 ),
-	_mergedRegion( NULL )
+	_mergedRegion( nullptr )
 {
 }
 
@@ -58,21 +58,6 @@ void Region::merge( Region *other )
 int Region::length() const
 {
 	return _xMax - _xMin + 1;
-}
-
-int Region::horizontalIntersection( Region *other )
-{
-	int totalXMin = _xMin;
-	if( other->_xMin < totalXMin )
-		totalXMin = other->_xMin;
-
-	int totalXMax = _xMax;
-	if( other->_xMax > totalXMax )
-		totalXMax = other->_xMax;
-
-	int totalLength = totalXMax - totalXMin + 1;
-
-	return length() + other->length() - totalLength;
 }
 
 Region* Region::finalRegion()

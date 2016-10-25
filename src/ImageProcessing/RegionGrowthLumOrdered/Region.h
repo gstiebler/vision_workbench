@@ -31,8 +31,6 @@ public:
 
 	void merge( Region *other );
 
-	int horizontalIntersection( Region *other );
-
 	Region* finalRegion();
 
 	int length() const;

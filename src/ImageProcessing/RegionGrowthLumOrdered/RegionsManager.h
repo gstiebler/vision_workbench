@@ -54,19 +54,15 @@ public:
 	 * @param[in] region1 First region
 	 * @param[in] region2 Second region
 	 */
-	static void mergeRegions( Region *region1, Region *region2, cv::Point &point, int maxHorizontalIntersection );
+	static void mergeRegions( Region *region1, Region *region2, cv::Point &point );
 
 private:
 
 	/** All the regions */
-	std::vector<Region*> _regions;
+	std::vector<Region> _regions;
 
 	/** Region of each pixel */
-	Region ***_regionOfPixel;
-
-	int _height;
-
-	int _counter;
+	std::vector< std::vector< Region* > > _regionOfPixel;
 };
 
 #endif /* SRC_IMAGEPROCESSING_REGIONGROWTHLUMORDERED_REGIONSMANAGER_H_ */
