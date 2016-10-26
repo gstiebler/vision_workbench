@@ -6,7 +6,7 @@
  */
 
 #include "RegionGrowthLumOrdered.h"
-#include <set>
+#include <map>
 #include "Region.h"
 #include "RegionsAnalyzer.h"
 
@@ -18,7 +18,7 @@ void execRegionGrowthLumOrdered(Mat &srcImg)
 	RegionsManager regionsManager(srcImg.cols, srcImg.rows);
 	RegionGrowthLumOrdered regionGrowthLumOrdered( srcImg, regionsManager );
 	RegionsAnalyzer regionsAnalyzer(srcImg.rows);
-	regionGrowthLumOrdered.exec(&regionsAnalyzer);
+	regionGrowthLumOrdered.exec(255, &regionsAnalyzer);
 }
 
 RegionGrowthLumOrdered::~RegionGrowthLumOrdered()
@@ -68,12 +68,12 @@ void RegionGrowthLumOrdered::initDirections(char vX[8], char vY[8])
     vY[7] = -1;
 }
 
-void RegionGrowthLumOrdered::exec(RegionsAnalyzer *regionsAnalyzer)
+void RegionGrowthLumOrdered::exec(uchar maxLum, RegionsAnalyzer *regionsAnalyzer)
 {
 	initLums(_srcImg);
 	initDirections(_vX, _vY);
 
-	for(int lum(0); lum < 256; ++lum)
+	for(int lum(0); lum <= maxLum; ++lum)
 	{
 		vector<Point> &currentLums = _lums[lum];
 		int size = (int) currentLums.size();
@@ -93,7 +93,8 @@ void RegionGrowthLumOrdered::exec(RegionsAnalyzer *regionsAnalyzer)
 
 void RegionGrowthLumOrdered::processPoint(const cv::Point &point)
 {
-	set<Region*> regionsSet;
+	// using map instead of set to avoid execution dependency on pointer values
+	map<int, Region*> regionsMap;
 
 	for(int k(0); k < 8; ++k)
 	{
@@ -101,17 +102,24 @@ void RegionGrowthLumOrdered::processPoint(const cv::Point &point)
 		Region* region = _regionsManager.getRegion( nPoint );
 		if( region )
 		{
-			regionsSet.insert( region );
+			regionsMap[region->id] = region;
 		}
 	}
 
-	if( regionsSet.size() == 0 )
+	if( regionsMap.size() == 0 )
 		_regionsManager.createRegion( point );
-	else if ( regionsSet.size() == 1 )
-		(*(regionsSet.begin()))->addPoint( point );
+	else if ( regionsMap.size() == 1 )
+	{
+		Region *firstRegion = (*(regionsMap.begin())).second;
+		firstRegion->addPoint( point );
+	}
 	else
 	{
-		std::vector<Region*> regionsVec(regionsSet.begin(), regionsSet.end());
+		std::vector<Region*> regionsVec;
+		for(auto &regionkv : regionsMap)
+		{
+			regionsVec.push_back(regionkv.second);
+		}
 		for(size_t i(1); i < regionsVec.size(); ++i)
 		{
 			_regionsManager.mergeRegions( regionsVec[i], regionsVec[i - 1], point );

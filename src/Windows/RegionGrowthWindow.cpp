@@ -37,10 +37,11 @@ void RegionGrowthWindow::executeClicked()
 	const int DIF_HEIGHT_HISTORY_INDEX = difIndexHeightSpin->value();
 	const int MIN_HEIGHT = minHeightSpin->value();
 	const double MAX_HEIGHT_FACTOR = maxHeightFactorSpin->value();
+	const int MAX_LUM = maxLumSpin->value();
 	Mat srcGray;
 	cvtColor( _srcImage, srcGray, CV_BGR2GRAY );
 	RegionsManager regionsManager(_srcImage.cols, _srcImage.rows);
-	regionsManager.shouldStopRegionFn = [DIF_HEIGHT_HISTORY_INDEX, MIN_HEIGHT, MAX_HEIGHT_FACTOR] (Region &region) {
+	regionsManager.shouldStopRegionFn = [DIF_HEIGHT_HISTORY_INDEX, MIN_HEIGHT, MAX_HEIGHT_FACTOR, MAX_LUM] (Region &region) {
 		if((region.heightHistory.size() < DIF_HEIGHT_HISTORY_INDEX) ||
 		   (region.height() < MIN_HEIGHT))
 		{
@@ -53,10 +54,19 @@ void RegionGrowthWindow::executeClicked()
 	};
 	RegionGrowthLumOrdered regionGrowthLumOrdered( srcGray, regionsManager );
 	RegionsAnalyzer regionsAnalyzer(_srcImage.rows);
-	regionGrowthLumOrdered.exec(nullptr);
+	regionGrowthLumOrdered.exec(MAX_LUM, nullptr);
 	_windowImages.setStatus(tm.getTime());
 
 	Mat dstColor(_srcImage.rows, _srcImage.cols, CV_8UC3, Scalar(0, 0, 0));
 	paintByHeight(regionsManager.stoppedRegions, dstColor);
+
+	/*std::vector<Region*> regionsVec;
+	for(auto &kv : regionsManager.activeRegions)
+	{
+		regionsVec.push_back(kv.second);
+	}
+	paintByHeight(regionsVec, dstColor);*/
+
 	_windowImages.setDstImage(dstColor);
+	printf("Num regions %ld\n", regionsManager.activeRegions.size());
 }

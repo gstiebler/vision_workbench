@@ -67,7 +67,7 @@ public:
 	std::function<bool(Region&)> shouldStopRegionFn;
 
 	// regions not merged into another regions, and not stopped
-	std::set<Region*> activeRegions;
+	std::map<int, Region*> activeRegions;
 
 	std::vector<Region*> stoppedRegions;
 

@@ -23,6 +23,23 @@
        </property>
       </widget>
      </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Max height factor</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QDoubleSpinBox" name="maxHeightFactorSpin">
+       <property name="singleStep">
+        <double>0.010000000000000</double>
+       </property>
+       <property name="value">
+        <double>1.200000000000000</double>
+       </property>
+      </widget>
+     </item>
      <item row="1" column="1">
       <widget class="QSpinBox" name="minHeightSpin">
        <property name="value">
@@ -44,20 +61,20 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QDoubleSpinBox" name="maxHeightFactorSpin">
-       <property name="singleStep">
-        <double>0.100000000000000</double>
-       </property>
-       <property name="value">
-        <double>1.200000000000000</double>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Max lum</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Max height factor</string>
+     <item row="3" column="1">
+      <widget class="QSpinBox" name="maxLumSpin">
+       <property name="maximum">
+        <number>255</number>
+       </property>
+       <property name="value">
+        <number>255</number>
        </property>
       </widget>
      </item>

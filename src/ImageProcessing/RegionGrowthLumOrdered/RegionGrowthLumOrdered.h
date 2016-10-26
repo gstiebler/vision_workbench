@@ -21,7 +21,7 @@ class RegionGrowthLumOrdered
 public:
 	RegionGrowthLumOrdered(cv::Mat &srcImg, RegionsManager &regionsManager);
 	virtual ~RegionGrowthLumOrdered();
-	void exec(RegionsAnalyzer *regionsAnalyzer);
+	void exec(uchar maxLum, RegionsAnalyzer *regionsAnalyzer);
 
 	RegionsManager &_regionsManager;
 
