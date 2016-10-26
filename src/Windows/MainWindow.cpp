@@ -16,6 +16,7 @@
 #include "ThresholdWindow.h"
 #include "FilesWindow.h"
 #include "RegionGrowthWindow.h"
+#include "ViewerWindow.h"
 
 using namespace std;
 using namespace cv;
