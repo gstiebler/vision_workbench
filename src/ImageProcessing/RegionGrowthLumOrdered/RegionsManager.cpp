@@ -57,6 +57,7 @@ void RegionsManager::createRegion( const Point &point )
 	Region *region = new Region( this, regions.size() );
 	region->addPoint(point);
 	regions.push_back( region );
+	activeRegions.insert(region);
 }
 
 void RegionsManager::mergeRegions( Region *region1, Region *region2, const Point &point )
@@ -64,6 +65,35 @@ void RegionsManager::mergeRegions( Region *region1, Region *region2, const Point
 	if( region1 == region2 )
 		return;
 
+	if(region1->stopped || region2->stopped)
+		return;
+
 	region1->merge( region2 );
 	region2->addPoint( point );
+
+	activeRegions.erase(region1);
+}
+
+void RegionsManager::processRegionsAfterLum()
+{
+	auto regionIt = activeRegions.begin();
+	while(regionIt != activeRegions.end())
+	{
+		Region *region = *regionIt;
+		region->heightHistory.push_back(region->height());
+
+		if(shouldStopRegionFn(*region))
+		{
+			region->stopped = true;
+			stoppedRegions.push_back(region);
+
+			auto previous = regionIt;
+			activeRegions.erase(previous);
+			regionIt++;
+		}
+		else
+		{
+			regionIt++;
+		}
+	}
 }

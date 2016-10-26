@@ -19,11 +19,11 @@ void execRegionGrowthLumOrdered(cv::Mat &srcImg);
 class RegionGrowthLumOrdered
 {
 public:
-	RegionGrowthLumOrdered(cv::Mat &srcImg);
+	RegionGrowthLumOrdered(cv::Mat &srcImg, RegionsManager &regionsManager);
 	virtual ~RegionGrowthLumOrdered();
 	void exec(RegionsAnalyzer *regionsAnalyzer);
 
-	RegionsManager regionsManager;
+	RegionsManager &_regionsManager;
 
 private:
 	void initLums(cv::Mat &srcImg);

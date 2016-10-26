@@ -15,7 +15,8 @@ using namespace cv;
 
 void execRegionGrowthLumOrdered(Mat &srcImg)
 {
-	RegionGrowthLumOrdered regionGrowthLumOrdered( srcImg );
+	RegionsManager regionsManager(srcImg.cols, srcImg.rows);
+	RegionGrowthLumOrdered regionGrowthLumOrdered( srcImg, regionsManager );
 	RegionsAnalyzer regionsAnalyzer(srcImg.rows);
 	regionGrowthLumOrdered.exec(&regionsAnalyzer);
 }
@@ -24,8 +25,8 @@ RegionGrowthLumOrdered::~RegionGrowthLumOrdered()
 {
 }
 
-RegionGrowthLumOrdered::RegionGrowthLumOrdered(Mat &srcImg) :
-		regionsManager( srcImg.cols, srcImg.rows ),
+RegionGrowthLumOrdered::RegionGrowthLumOrdered(Mat &srcImg, RegionsManager &regionsManager) :
+		_regionsManager( regionsManager ),
 		_srcImg(srcImg)
 {
 }
@@ -82,9 +83,10 @@ void RegionGrowthLumOrdered::exec(RegionsAnalyzer *regionsAnalyzer)
 			processPoint(point);
 		}
 
+		_regionsManager.processRegionsAfterLum();
 		if(regionsAnalyzer)
 		{
-			regionsAnalyzer->analyze(regionsManager);
+			regionsAnalyzer->analyze(_regionsManager);
 		}
 	}
 }
@@ -96,7 +98,7 @@ void RegionGrowthLumOrdered::processPoint(const cv::Point &point)
 	for(int k(0); k < 8; ++k)
 	{
 		Point nPoint(point.x + _vX[k], point.y + _vY[k]);
-		Region* region = regionsManager.getRegion( nPoint );
+		Region* region = _regionsManager.getRegion( nPoint );
 		if( region )
 		{
 			regionsSet.insert( region );
@@ -104,7 +106,7 @@ void RegionGrowthLumOrdered::processPoint(const cv::Point &point)
 	}
 
 	if( regionsSet.size() == 0 )
-		regionsManager.createRegion( point );
+		_regionsManager.createRegion( point );
 	else if ( regionsSet.size() == 1 )
 		(*(regionsSet.begin()))->addPoint( point );
 	else
@@ -112,7 +114,7 @@ void RegionGrowthLumOrdered::processPoint(const cv::Point &point)
 		std::vector<Region*> regionsVec(regionsSet.begin(), regionsSet.end());
 		for(size_t i(1); i < regionsVec.size(); ++i)
 		{
-			regionsManager.mergeRegions( regionsVec[i], regionsVec[i - 1], point );
+			_regionsManager.mergeRegions( regionsVec[i], regionsVec[i - 1], point );
 		}
 	}
 }

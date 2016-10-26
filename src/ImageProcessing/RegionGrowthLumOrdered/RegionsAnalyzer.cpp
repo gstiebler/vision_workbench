@@ -19,13 +19,17 @@ RegionsAnalyzer::RegionsAnalyzer(int height) :
 
 RegionsAnalyzer::~RegionsAnalyzer()
 {
+	/*for(size_t i(0); i < heightHistogram.size(); ++i)
+	{
+		printf("%d %d\n", (int)i, heightHistogram[i]);
+	}*/
 }
 
 void RegionsAnalyzer::analyze(RegionsManager &regionsManager)
 {
 	for(auto &region : regionsManager.regions)
 	{
-		if(!region->isFinal() || region->id == 0) continue;
+		if(!region->wasMergedIntoAnotherRegion() || region->id == 0) continue;
 		heightHistogram[region->height()]++;
 	}
 }

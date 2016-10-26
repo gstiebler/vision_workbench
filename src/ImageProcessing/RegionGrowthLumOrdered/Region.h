@@ -37,11 +37,13 @@ public:
 
 	int width() const;
 	int height() const;
-	bool isFinal() const;
+	bool wasMergedIntoAnotherRegion() const;
 	void getPoints(std::vector<cv::Point> &points) const;
 
 	int xMin, xMax, yMin, yMax;
 	int id;
+	bool stopped;
+	std::vector<int> heightHistory;
 
 private:
 

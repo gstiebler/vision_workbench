@@ -17,6 +17,7 @@ using namespace cv;
 Region::Region( RegionsManager *regionsManager, int id ) :
 	_regionsManager( regionsManager ),
 	id( id ),
+	stopped(false),
 	xMin( 10000000 ),
 	xMax( -1 ),
 	yMin( 10000000 ),
@@ -31,6 +32,8 @@ Region::~Region()
 
 void Region::addPoint( const Point &point )
 {
+	if(stopped) return;
+
 	_points.push_back( point );
 
 	xMin = min(point.x, xMin);
@@ -73,7 +76,7 @@ int Region::height() const
 	return yMax - yMin + 1;
 }
 
-bool Region::isFinal() const
+bool Region::wasMergedIntoAnotherRegion() const
 {
 	return !_destMergedRegion;
 }

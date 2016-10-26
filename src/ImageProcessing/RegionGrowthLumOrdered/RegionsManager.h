@@ -10,6 +10,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <vector>
+#include <functional>
 
 class Region;
 
@@ -54,12 +55,21 @@ public:
 	 * @param[in] region1 First region
 	 * @param[in] region2 Second region
 	 */
-	static void mergeRegions( Region *region1, Region *region2, const cv::Point &point );
+	void mergeRegions( Region *region1, Region *region2, const cv::Point &point );
+
+	void processRegionsAfterLum();
 
 	/** All the regions */
 	std::vector<Region*> regions;
 
 	std::vector<int> regionsIndexMap;
+
+	std::function<bool(Region&)> shouldStopRegionFn;
+
+	// regions not merged into another regions, and not stopped
+	std::set<Region*> activeRegions;
+
+	std::vector<Region*> stoppedRegions;
 
 private:
 
