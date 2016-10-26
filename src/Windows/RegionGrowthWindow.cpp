@@ -50,7 +50,9 @@ void RegionGrowthWindow::executeClicked()
 		int currHeight = region.heightHistory.back();
 		int oldHeight = region.heightHistory[region.heightHistory.size() - DIF_HEIGHT_HISTORY_INDEX];
 		double heighFactor = currHeight * 1.0 / oldHeight;
-		return heighFactor < MAX_HEIGHT_FACTOR;
+		bool hasHeightFactor = heighFactor < MAX_HEIGHT_FACTOR;
+		bool hasRightProportion = region.height() > region.width();
+		return hasHeightFactor && hasRightProportion;
 	};
 	RegionGrowthLumOrdered regionGrowthLumOrdered( srcGray, regionsManager );
 	RegionsAnalyzer regionsAnalyzer(_srcImage.rows);
@@ -68,5 +70,4 @@ void RegionGrowthWindow::executeClicked()
 	paintByHeight(regionsVec, dstColor);*/
 
 	_windowImages.setDstImage(dstColor);
-	printf("Num regions %ld\n", regionsManager.activeRegions.size());
 }
