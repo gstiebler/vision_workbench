@@ -28,6 +28,7 @@ set( SOURCES
     ${SRC_BASE}/Windows/FilesWindow.cpp
     ${SRC_BASE}/Windows/RegionGrowthWindow.cpp
     ${SRC_BASE}/Windows/ViewerWindow.cpp
+    ${SRC_BASE}/QMouseEventerImage.cpp
     ${SRC_BASE}/ImageProcessing/RegionGrowthLumOrdered/RegionGrowthLumOrdered.cpp
     ${SRC_BASE}/ImageProcessing/RegionGrowthLumOrdered/Region.cpp
     ${SRC_BASE}/ImageProcessing/RegionGrowthLumOrdered/RegionsManager.cpp

@@ -12,6 +12,7 @@
 #include <string>
 #include <opencv2/opencv.hpp>
 #include <QFileDialog>
+#include <QMouseEvent>
 #include "VideoWindow.h"
 #include "ThresholdWindow.h"
 #include "FilesWindow.h"
@@ -31,8 +32,21 @@ static void SetLabelImage(QLabel *label, QPixmap &pixmap, int height)
 MainWindow::MainWindow(string initialImage)
 {
     setupUi(this);
+    srcImageLabel = initializeImageWidget("srcImage", 0);
+    dstImageLabel = initializeImageWidget("dstImage", 1);
 
     connect( buttonExecute, SIGNAL( clicked() ), this, SLOT( executeClicked() ) );
+
+    QObject::connect( srcImageLabel, &QMouseEventerImage::mousePressed, [this] (QMouseEvent *event) {
+    	ViewerWindow *window = new ViewerWindow(this, *this);
+		window->show();
+    	//printf("mousePressEvent %d\n", event->pos().x());
+	});
+
+    QObject::connect( srcImageLabel, &QMouseEventerImage::mousePressed, [this] (QMouseEvent *event) {
+    	ViewerWindow *window = new ViewerWindow(this, *this);
+		window->show();
+	});
 
     QObject::connect( videoWindowButton, &QPushButton::clicked, [this] () {
 		VideoWindow *window = new VideoWindow(this, this);
@@ -72,6 +86,21 @@ MainWindow::MainWindow(string initialImage)
 
 MainWindow::~MainWindow()
 {
+}
+
+QMouseEventerImage* MainWindow::initializeImageWidget(QString name, int index)
+{
+	QMouseEventerImage *mei = new QMouseEventerImage(centralwidget);
+	mei->setObjectName(name);
+    QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+    sizePolicy.setHorizontalStretch(0);
+    sizePolicy.setVerticalStretch(0);
+    sizePolicy.setHeightForWidth(mei->sizePolicy().hasHeightForWidth());
+    mei->setSizePolicy(sizePolicy);
+    mei->setMinimumSize(QSize(0, 400));
+    mei->setScaledContents(false);
+    verticalLayout->insertWidget(index, mei);
+    return mei;
 }
 
 void MainWindow::executeClicked()

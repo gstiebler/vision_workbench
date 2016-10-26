@@ -20,9 +20,17 @@ ViewerWindow::ViewerWindow(QWidget *parent, WindowImagesInterface &windowImages)
 {
     setupUi(this);
 	setAttribute( Qt::WA_DeleteOnClose );
+
+	QImage srcImage = QImage((const unsigned char*)(_srcImage.data),
+			_srcImage.cols, _srcImage.rows,
+			_srcImage.step, QImage::Format_RGB888).rgbSwapped();
+
+	QPixmap pixmap = QPixmap::fromImage(srcImage);
+	imageLabel->setPixmap(pixmap);
+	imageLabel->show();
 }
 
-ViewerWindow::~ViewerWindow() {
-	// TODO Auto-generated destructor stub
+ViewerWindow::~ViewerWindow()
+{
 }
 

@@ -9,9 +9,11 @@
 #define MAINWINDOW_H_
 
 #include <QMainWindow>
+#include <QString>
 #include "ui_MainWindow.h"
 #include <string>
 #include <opencv2/opencv.hpp>
+#include "QMouseEventerImage.h"
 
 class WindowImagesInterface
 {
@@ -42,7 +44,9 @@ private slots:
 	void executeClicked();
 
 private:
-
+	QMouseEventerImage* initializeImageWidget(QString name, int index);
+	QMouseEventerImage *srcImageLabel;
+	QMouseEventerImage *dstImageLabel;
 	cv::Mat _srcImage;
 
 };
