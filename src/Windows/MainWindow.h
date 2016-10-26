@@ -38,6 +38,8 @@ public:
 	void setStatus(std::string status);
 
 signals:
+	void srcImageChanged(cv::Mat &image);
+	void dstImageChanged(cv::Mat &image);
 
 private slots:
 
@@ -48,6 +50,7 @@ private:
 	QMouseEventerImage *srcImageLabel;
 	QMouseEventerImage *dstImageLabel;
 	cv::Mat _srcImage;
+	cv::Mat _dstImage;
 
 };
 

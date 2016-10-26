@@ -12,20 +12,16 @@
 #include "ui_Viewer.h"
 #include <opencv2/opencv.hpp>
 
-class WindowImagesInterface;
-
 class ViewerWindow : public QDialog, private Ui::ViewerWindow
 {
     Q_OBJECT
 
 public:
-	ViewerWindow(QWidget *parent, WindowImagesInterface &windowImages);
+	ViewerWindow(QWidget *parent);
 	virtual ~ViewerWindow();
 
-private:
-
-	WindowImagesInterface &_windowImages;
-	cv::Mat &_srcImage;
+public slots:
+	void imageChanged(cv::Mat &image);
 };
 
 #endif /* SRC_WINDOWS_VIEWERWINDOW_H_ */

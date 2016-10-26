@@ -38,13 +38,17 @@ MainWindow::MainWindow(string initialImage)
     connect( buttonExecute, SIGNAL( clicked() ), this, SLOT( executeClicked() ) );
 
     QObject::connect( srcImageLabel, &QMouseEventerImage::mousePressed, [this] (QMouseEvent *event) {
-    	ViewerWindow *window = new ViewerWindow(this, *this);
+    	ViewerWindow *window = new ViewerWindow(this);
+        connect( this, &MainWindow::srcImageChanged, window, &ViewerWindow::imageChanged );
+    	emit srcImageChanged(_srcImage);
 		window->show();
     	//printf("mousePressEvent %d\n", event->pos().x());
 	});
 
-    QObject::connect( srcImageLabel, &QMouseEventerImage::mousePressed, [this] (QMouseEvent *event) {
-    	ViewerWindow *window = new ViewerWindow(this, *this);
+    QObject::connect( dstImageLabel, &QMouseEventerImage::mousePressed, [this] (QMouseEvent *event) {
+    	ViewerWindow *window = new ViewerWindow(this);
+        connect( this, &MainWindow::dstImageChanged, window, &ViewerWindow::imageChanged );
+    	emit dstImageChanged(_dstImage);
 		window->show();
 	});
 
@@ -130,6 +134,7 @@ void MainWindow::setSrcImage(Mat &image)
 	char status[100];
 	sprintf(status, "%d x %d", image.rows, image.cols);
 	setStatus(status);
+	emit srcImageChanged(_srcImage);
 }
 
 void MainWindow::setDstImage(Mat &image)
@@ -140,6 +145,8 @@ void MainWindow::setDstImage(Mat &image)
 
 	QPixmap pixmap = QPixmap::fromImage(dstImage);
 	SetLabelImage(dstImageLabel, pixmap, dstImageLabel->minimumHeight());
+	emit dstImageChanged(image);
+	_dstImage = image;
 }
 
 cv::Mat& MainWindow::getSrcImage()
