@@ -7,18 +7,27 @@
 
 #include "RegionsPainter.h"
 #include "Region.h"
+#include <algorithm>
 
 using namespace std;
 using namespace cv;
 
 void paintByHeight(vector<Region*> &regions, Mat &dstImg)
 {
-	Mat tempGray(dstImg.rows, dstImg.cols, CV_8UC1, Scalar(255));
+	Mat tempGray(dstImg.rows, dstImg.cols, CV_8UC1, Scalar(0));
+
+	int maxHeight = 0;
+	int minHeight = dstImg.rows;
+	for(auto &region : regions)
+	{
+		minHeight = min(minHeight, region->height());
+		maxHeight = max(maxHeight, region->height());
+	}
 	for(auto &region : regions)
 	{
 		vector<Point> points;
 		region->getPoints(points);
-		double factor = region->height() * 1.0 / dstImg.rows;
+		double factor = 1.0 - ((region->height() - minHeight) * 1.0 / maxHeight) * 0.8;
 		uchar p = factor * 255;
 		for(auto &point : points)
 		{
