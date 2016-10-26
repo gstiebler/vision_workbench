@@ -70,8 +70,6 @@ void MainWindow::executeClicked()
 	QFileDialog dialog(NULL);
 	if ( dialog.exec() ) 
 	{
-		printf("teste: %s\n", dialog.selectedFiles()[0].toLatin1().data());
-
 		Mat srcImage = imread( dialog.selectedFiles()[0].toLatin1().data(), 1 );
 		if ( !srcImage.data )
 		{

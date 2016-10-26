@@ -25,8 +25,6 @@ void VideoWindow::openFileClicked()
 	QFileDialog dialog(NULL);
 	if ( dialog.exec() ) 
 	{
-		printf("teste: %s\n", dialog.selectedFiles()[0].toLatin1().data());
-
         VideoCapture *cap = new VideoCapture(dialog.selectedFiles()[0].toLatin1().data());
         _cap = std::shared_ptr<cv::VideoCapture>(cap);
         double count = _cap->get(CV_CAP_PROP_FRAME_COUNT);
@@ -40,8 +38,6 @@ void VideoWindow::openFileClicked()
 
 void VideoWindow::sliderMoved(int value)
 {
-    printf("%d", value);
-
     /*_cap->set(CV_CAP_PROP_POS_FRAMES, value - 1); //Set index to last frame
     Mat frame;
     bool success = _cap->read(frame); 
