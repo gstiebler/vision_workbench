@@ -62,12 +62,5 @@ void RegionGrowthWindow::executeClicked()
 	Mat dstColor(_srcImage.rows, _srcImage.cols, CV_8UC3, Scalar(0, 0, 0));
 	paintByHeight(regionsManager.stoppedRegions, dstColor);
 
-	/*std::vector<Region*> regionsVec;
-	for(auto &kv : regionsManager.activeRegions)
-	{
-		regionsVec.push_back(kv.second);
-	}
-	paintByHeight(regionsVec, dstColor);*/
-
 	_windowImages.setDstImage(dstColor);
 }

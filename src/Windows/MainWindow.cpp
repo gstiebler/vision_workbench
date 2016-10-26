@@ -54,6 +54,15 @@ MainWindow::MainWindow(string initialImage)
 		window->show();
 	});
 
+    QObject::connect( colorMapButton, &QPushButton::clicked, [this] () {
+    	Mat grayImage, dstImage;
+    	Mat ones(_srcImage.rows, _srcImage.cols, CV_8UC1, Scalar(255));
+    	cvtColor( _srcImage, grayImage, CV_BGR2GRAY );
+    	grayImage = ones - grayImage;
+    	applyColorMap(grayImage, dstImage, COLORMAP_JET);
+    	setDstImage(dstImage);
+	});
+
     if(initialImage != "")
     {
 		Mat srcImage = imread( initialImage.c_str(), 1 );
