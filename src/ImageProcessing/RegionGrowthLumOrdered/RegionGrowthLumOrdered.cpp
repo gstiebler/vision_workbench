@@ -91,7 +91,7 @@ void RegionGrowthLumOrdered::exec(RegionsAnalyzer *regionsAnalyzer)
 
 void RegionGrowthLumOrdered::processPoint(const cv::Point &point)
 {
-	set<Region*> nRegions;
+	set<Region*> regionsSet;
 
 	for(int k(0); k < 8; ++k)
 	{
@@ -99,25 +99,20 @@ void RegionGrowthLumOrdered::processPoint(const cv::Point &point)
 		Region* region = regionsManager.getRegion( nPoint );
 		if( region )
 		{
-			nRegions.insert( region );
+			regionsSet.insert( region );
 		}
 	}
 
-	if( nRegions.size() == 0 )
+	if( regionsSet.size() == 0 )
 		regionsManager.createRegion( point );
-	else if ( nRegions.size() == 1 )
-		(*(nRegions.begin()))->addPoint( point );
+	else if ( regionsSet.size() == 1 )
+		(*(regionsSet.begin()))->addPoint( point );
 	else
 	{
-		for( auto &regionL1 : nRegions )
+		std::vector<Region*> regionsVec(regionsSet.begin(), regionsSet.end());
+		for(size_t i(1); i < regionsVec.size(); ++i)
 		{
-			for( auto &regionL2 : nRegions )
-			{
-				if(regionL1 == regionL2)
-					continue;
-
-				regionsManager.mergeRegions( regionL1, regionL2, point );
-			}
+			regionsManager.mergeRegions( regionsVec[i], regionsVec[i - 1], point );
 		}
 	}
 }

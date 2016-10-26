@@ -59,10 +59,12 @@ public:
 	/** All the regions */
 	std::vector<Region*> regions;
 
+	std::vector<int> regionsIndexMap;
+
 private:
 
-	/** Region of each pixel */
-	std::vector< std::vector< Region* > > _regionOfPixel;
+	/** Region id of each pixel */
+	std::vector< std::vector< int > > _regionOfPixel;
 };
 
 #endif /* SRC_IMAGEPROCESSING_REGIONGROWTHLUMORDERED_REGIONSMANAGER_H_ */

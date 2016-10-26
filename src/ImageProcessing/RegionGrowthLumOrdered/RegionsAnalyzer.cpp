@@ -25,6 +25,7 @@ void RegionsAnalyzer::analyze(RegionsManager &regionsManager)
 {
 	for(auto &region : regionsManager.regions)
 	{
+		if(!region->isFinal() || region->id == 0) continue;
 		heightHistogram[region->height()]++;
 	}
 }

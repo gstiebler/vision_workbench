@@ -16,12 +16,12 @@ using namespace cv;
 
 Region::Region( RegionsManager *regionsManager, int id ) :
 	_regionsManager( regionsManager ),
-	_id( id ),
-	_xMin( 10000000 ),
-	_xMax( -1 ),
-	_yMin( 10000000 ),
-	_yMax( -1 ),
-	_mergedRegion( nullptr )
+	id( id ),
+	xMin( 10000000 ),
+	xMax( -1 ),
+	yMin( 10000000 ),
+	yMax( -1 ),
+	_destMergedRegion( nullptr )
 {
 }
 
@@ -33,47 +33,56 @@ void Region::addPoint( const Point &point )
 {
 	_points.push_back( point );
 
-	_xMin = min(point.x, _xMin);
-	_xMax = max(point.x, _xMax);
-	_yMin = min(point.y, _yMin);
-	_yMax = max(point.y, _yMax);
-
-	assert( width() <= _points.size() );
+	xMin = min(point.x, xMin);
+	xMax = max(point.x, xMax);
+	yMin = min(point.y, yMin);
+	yMax = max(point.y, yMax);
 
 	_regionsManager->setRegion( point, this );
 }
 
 void Region::merge( Region *other )
 {
-	for(int n(0); n < _points.size(); ++n)
-		_regionsManager->setRegion( _points[n], other );
+	xMin = min(xMin, other->xMin);
+	xMax = max(xMax, other->xMax);
+	yMin = min(yMin, other->yMin);
+	yMax = max(yMax, other->yMax);
 
-	other->_points.insert( other->_points.end(), _points.begin(), _points.end() );
+	_destMergedRegion = other;
+	other->_srcMergedRegions.push_back(this);
 
-	_xMin = min(_xMin, other->_xMin);
-	_xMax = max(_xMax, other->_xMax);
-	_yMin = min(_yMin, other->_yMin);
-	_yMax = max(_yMax, other->_yMax);
+	replaceId(other->id);
+}
 
-	_mergedRegion = other;
+void Region::replaceId(int newId)
+{
+	_regionsManager->regionsIndexMap[id] = newId;
+	for(auto &srcRegion : _srcMergedRegions)
+	{
+		srcRegion->replaceId(newId);
+	}
 }
 
 int Region::width() const
 {
-	return _xMax - _xMin + 1;
+	return xMax - xMin + 1;
 }
 
 int Region::height() const
 {
-	return _yMax - _yMin + 1;
+	return yMax - yMin + 1;
 }
 
-Region* Region::finalRegion()
+bool Region::isFinal() const
 {
-	assert(this != _mergedRegion);
+	return !_destMergedRegion;
+}
 
-	if( _mergedRegion )
-		return _mergedRegion->finalRegion();
-	else
-		return this;
+void Region::getPoints(std::vector<cv::Point> &points) const
+{
+	points.insert(points.end(), _points.begin(), _points.end());
+	for(auto &srcRegion : _srcMergedRegions)
+	{
+		srcRegion->getPoints(points);
+	}
 }

@@ -37,12 +37,15 @@ public:
 
 	int width() const;
 	int height() const;
+	bool isFinal() const;
+	void getPoints(std::vector<cv::Point> &points) const;
 
-	int _xMin, _xMax, _yMin, _yMax;
-
-	int _id;
+	int xMin, xMax, yMin, yMax;
+	int id;
 
 private:
+
+	void replaceId(int newId);
 
 	/** The points of the region */
 	std::vector<cv::Point> _points;
@@ -50,7 +53,9 @@ private:
 	/** The unique and only regions manager */
 	RegionsManager *_regionsManager;
 
-	Region *_mergedRegion;
+	Region *_destMergedRegion;
+
+	std::vector<Region*> _srcMergedRegions;
 };
 
 #endif /* SRC_IMAGEPROCESSING_REGIONGROWTHLUMORDERED_REGION_H_ */

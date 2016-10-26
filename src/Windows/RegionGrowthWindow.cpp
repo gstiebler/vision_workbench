@@ -32,4 +32,5 @@ void RegionGrowthWindow::executeClicked()
 	RegionGrowthLumOrdered regionGrowthLumOrdered( _srcImage );
 	RegionsAnalyzer regionsAnalyzer(_srcImage.rows);
 	regionGrowthLumOrdered.exec(&regionsAnalyzer);
+	printf("acabou\n");
 }
