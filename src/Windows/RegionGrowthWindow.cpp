@@ -10,6 +10,7 @@
 #include "ImageProcessing/RegionGrowthLumOrdered/RegionGrowthLumOrdered.h"
 #include "ImageProcessing/RegionGrowthLumOrdered/RegionsAnalyzer.h"
 #include "ImageProcessing/RegionGrowthLumOrdered/Region.h"
+#include "ImageProcessing/RegionGrowthLumOrdered/RegionsPainter.h"
 #include "TimeMeasure.h"
 
 using namespace cv;
@@ -54,4 +55,8 @@ void RegionGrowthWindow::executeClicked()
 	RegionsAnalyzer regionsAnalyzer(_srcImage.rows);
 	regionGrowthLumOrdered.exec(nullptr);
 	_windowImages.setStatus(tm.getTime());
+
+	Mat dstColor(_srcImage.rows, _srcImage.cols, CV_8UC3, Scalar(0, 0, 0));
+	paintByHeight(regionsManager.stoppedRegions, dstColor);
+	_windowImages.setDstImage(dstColor);
 }
