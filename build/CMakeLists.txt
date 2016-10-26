@@ -30,6 +30,7 @@ set( SOURCES
     ${SRC_BASE}/ImageProcessing/RegionGrowthLumOrdered/RegionGrowthLumOrdered.cpp
     ${SRC_BASE}/ImageProcessing/RegionGrowthLumOrdered/Region.cpp
     ${SRC_BASE}/ImageProcessing/RegionGrowthLumOrdered/RegionsManager.cpp
+    ${SRC_BASE}/ImageProcessing/RegionGrowthLumOrdered/RegionsAnalyzer.cpp
 )
 
 set( ALL_SOURCES 

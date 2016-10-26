@@ -8,6 +8,7 @@
 #include "RegionGrowthLumOrdered.h"
 #include <set>
 #include "Region.h"
+#include "RegionsAnalyzer.h"
 
 using namespace std;
 using namespace cv;
@@ -15,7 +16,8 @@ using namespace cv;
 void execRegionGrowthLumOrdered(Mat &srcImg)
 {
 	RegionGrowthLumOrdered regionGrowthLumOrdered( srcImg );
-	regionGrowthLumOrdered.exec();
+	RegionsAnalyzer regionsAnalyzer(srcImg.rows);
+	regionGrowthLumOrdered.exec(&regionsAnalyzer);
 }
 
 RegionGrowthLumOrdered::~RegionGrowthLumOrdered()
@@ -23,8 +25,8 @@ RegionGrowthLumOrdered::~RegionGrowthLumOrdered()
 }
 
 RegionGrowthLumOrdered::RegionGrowthLumOrdered(Mat &srcImg) :
-		_srcImg(srcImg),
-		_regionsManager( _srcImg.cols, _srcImg.rows )
+		regionsManager( srcImg.cols, srcImg.rows ),
+		_srcImg(srcImg)
 {
 }
 
@@ -65,7 +67,7 @@ void RegionGrowthLumOrdered::initDirections(char vX[8], char vY[8])
     vY[7] = -1;
 }
 
-void RegionGrowthLumOrdered::exec()
+void RegionGrowthLumOrdered::exec(RegionsAnalyzer *regionsAnalyzer)
 {
 	initLums(_srcImg);
 	initDirections(_vX, _vY);
@@ -79,6 +81,11 @@ void RegionGrowthLumOrdered::exec()
 			Point &point = currentLums[n];
 			processPoint(point);
 		}
+
+		if(regionsAnalyzer)
+		{
+			regionsAnalyzer->analyze(regionsManager);
+		}
 	}
 }
 
@@ -89,7 +96,7 @@ void RegionGrowthLumOrdered::processPoint(const cv::Point &point)
 	for(int k(0); k < 8; ++k)
 	{
 		Point nPoint(point.x + _vX[k], point.y + _vY[k]);
-		Region* region = _regionsManager.getRegion( nPoint );
+		Region* region = regionsManager.getRegion( nPoint );
 		if( region )
 		{
 			nRegions.insert( region );
@@ -97,7 +104,7 @@ void RegionGrowthLumOrdered::processPoint(const cv::Point &point)
 	}
 
 	if( nRegions.size() == 0 )
-		_regionsManager.createRegion( point );
+		regionsManager.createRegion( point );
 	else if ( nRegions.size() == 1 )
 		(*(nRegions.begin()))->addPoint( point );
 	else
@@ -109,7 +116,7 @@ void RegionGrowthLumOrdered::processPoint(const cv::Point &point)
 				if(regionL1 == regionL2)
 					continue;
 
-				_regionsManager.mergeRegions( regionL1, regionL2, point );
+				regionsManager.mergeRegions( regionL1, regionL2, point );
 			}
 		}
 	}

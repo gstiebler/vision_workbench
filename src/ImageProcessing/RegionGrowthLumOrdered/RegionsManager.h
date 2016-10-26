@@ -56,10 +56,10 @@ public:
 	 */
 	static void mergeRegions( Region *region1, Region *region2, const cv::Point &point );
 
-private:
-
 	/** All the regions */
-	std::vector<Region*> _regions;
+	std::vector<Region*> regions;
+
+private:
 
 	/** Region of each pixel */
 	std::vector< std::vector< Region* > > _regionOfPixel;

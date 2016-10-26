@@ -8,6 +8,8 @@
 #include "RegionGrowthWindow.h"
 #include "MainWindow.h"
 #include "ImageProcessing/RegionGrowthLumOrdered/RegionGrowthLumOrdered.h"
+#include "ImageProcessing/RegionGrowthLumOrdered/RegionsAnalyzer.h"
+
 
 RegionGrowthWindow::RegionGrowthWindow(QWidget *parent, WindowImagesInterface &windowImages) :
 	QDialog(parent),
@@ -27,5 +29,7 @@ RegionGrowthWindow::~RegionGrowthWindow()
 
 void RegionGrowthWindow::executeClicked()
 {
-	execRegionGrowthLumOrdered(_srcImage);
+	RegionGrowthLumOrdered regionGrowthLumOrdered( _srcImage );
+	RegionsAnalyzer regionsAnalyzer(_srcImage.rows);
+	regionGrowthLumOrdered.exec(&regionsAnalyzer);
 }

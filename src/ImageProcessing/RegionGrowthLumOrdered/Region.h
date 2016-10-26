@@ -23,8 +23,6 @@ public:
 	 */
 	Region( RegionsManager *regionsManager, int id );
 
-	Region(const Region &other);
-
 	~Region();
 
 	/**
@@ -37,9 +35,10 @@ public:
 
 	Region* finalRegion();
 
-	int length() const;
+	int width() const;
+	int height() const;
 
-	int _xMin, _xMax;
+	int _xMin, _xMax, _yMin, _yMax;
 
 	int _id;
 

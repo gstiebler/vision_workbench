@@ -23,7 +23,7 @@ RegionsManager::RegionsManager( int width, int height )
 
 RegionsManager::~RegionsManager()
 {
-	for(auto &region : _regions)
+	for(auto &region : regions)
 	{
 		delete region;
 	}
@@ -45,9 +45,9 @@ void RegionsManager::setRegion( const Point &point, Region *region )
 
 void RegionsManager::createRegion( const Point &point )
 {
-	Region *region = new Region( this, _regions.size() + 1 );
+	Region *region = new Region( this, regions.size() + 1 );
 	region->addPoint(point);
-	_regions.push_back( region );
+	regions.push_back( region );
 }
 
 void RegionsManager::mergeRegions( Region *region1, Region *region2, const Point &point )

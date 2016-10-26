@@ -8,6 +8,7 @@
 #include "Region.h"
 #include "RegionsManager.h"
 #include <assert.h>
+#include <algorithm>
 
 using namespace std;
 using namespace cv;
@@ -18,17 +19,9 @@ Region::Region( RegionsManager *regionsManager, int id ) :
 	_id( id ),
 	_xMin( 10000000 ),
 	_xMax( -1 ),
+	_yMin( 10000000 ),
+	_yMax( -1 ),
 	_mergedRegion( nullptr )
-{
-}
-
-Region::Region(const Region &other) :
-		_xMin(other._xMin),
-		_xMax(other._xMax),
-		_id(other._id),
-		_points(other._points),
-		_regionsManager(other._regionsManager),
-		_mergedRegion(other._mergedRegion)
 {
 }
 
@@ -39,13 +32,13 @@ Region::~Region()
 void Region::addPoint( const Point &point )
 {
 	_points.push_back( point );
-	if( point.x < _xMin )
-		_xMin = point.x;
 
-	if( point.x > _xMax )
-		_xMax = point.x;
+	_xMin = min(point.x, _xMin);
+	_xMax = max(point.x, _xMax);
+	_yMin = min(point.y, _yMin);
+	_yMax = max(point.y, _yMax);
 
-	assert( length() <= _points.size() );
+	assert( width() <= _points.size() );
 
 	_regionsManager->setRegion( point, this );
 }
@@ -57,18 +50,22 @@ void Region::merge( Region *other )
 
 	other->_points.insert( other->_points.end(), _points.begin(), _points.end() );
 
-	if(_xMin < other->_xMin)
-		other->_xMin = _xMin;
-
-	if(_xMax > other->_xMax)
-		other->_xMax = _xMax;
+	_xMin = min(_xMin, other->_xMin);
+	_xMax = max(_xMax, other->_xMax);
+	_yMin = min(_yMin, other->_yMin);
+	_yMax = max(_yMax, other->_yMax);
 
 	_mergedRegion = other;
 }
 
-int Region::length() const
+int Region::width() const
 {
 	return _xMax - _xMin + 1;
+}
+
+int Region::height() const
+{
+	return _yMax - _yMin + 1;
 }
 
 Region* Region::finalRegion()
