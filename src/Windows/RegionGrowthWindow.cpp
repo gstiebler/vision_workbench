@@ -45,22 +45,21 @@ void RegionGrowthWindow::execute()
 	printf("Debug point: (%d, %d)\n", _pointDebug.x, _pointDebug.y);
 	RegionsManager regionsManager(_srcImage.cols, _srcImage.rows);
 	regionsManager.shouldStopRegionFn = [this, DIF_HEIGHT_HISTORY_INDEX, MIN_HEIGHT, MAX_HEIGHT_FACTOR, MAX_LUM] (Region &region) {
-		if((region.heightHistory.size() < DIF_HEIGHT_HISTORY_INDEX) ||
+		if((region.rectHistory.size() < DIF_HEIGHT_HISTORY_INDEX) ||
 		   (region.limits.height() < MIN_HEIGHT))
 		{
 			return false;
 		}
-		int currHeight = region.heightHistory.back();
-		int oldHeight = region.heightHistory[region.heightHistory.size() - DIF_HEIGHT_HISTORY_INDEX];
-		double heightFactor = currHeight * 1.0 / oldHeight;
+		Rectangle &currRect = region.rectHistory.back();
+		Rectangle &oldRect = region.rectHistory[region.rectHistory.size() - DIF_HEIGHT_HISTORY_INDEX];
+		double heightFactor = currRect.height() * 1.0 / oldRect.height();
 		bool hasHeightFactor = heightFactor < MAX_HEIGHT_FACTOR;
 		bool hasRightProportion = region.limits.height() > region.limits.width();
-
 
 		if(region.limits.isInside(_pointDebug))
 		{
 			printf("id: %d, heightFactor: %lf, numHeights: %ld, numPoints: %ld, xMin: %d, xMax: %d, yMin: %d, yMax: %d\n", region.id, heightFactor,
-					region.heightHistory.size(),
+					region.rectHistory.size(),
 					region.points.size(),
 					region.limits.xMin,
 					region.limits.xMax,

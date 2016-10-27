@@ -42,7 +42,7 @@ public:
 	Rectangle limits;
 	int id;
 	bool stopped;
-	std::vector<int> heightHistory;
+	std::vector<Rectangle> rectHistory;
 
 	/** The points of the region */
 	std::vector<cv::Point> points;
