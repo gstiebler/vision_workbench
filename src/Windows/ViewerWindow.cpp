@@ -6,6 +6,7 @@
  */
 
 #include "ViewerWindow.h"
+#include <QMouseEvent>
 
 using namespace std;
 using namespace cv;
@@ -14,18 +15,42 @@ ViewerWindow::ViewerWindow(QWidget *parent) :
 	QDialog(parent)
 {
     setupUi(this);
+    initializeImageWidget();
 	setAttribute( Qt::WA_DeleteOnClose );
-
-	/*int originalWidth = imageLabel->width();
-	int originalHeight = imageLabel->height();*/
 
     QObject::connect( zoomSpinBox, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), [=] (int value) {
     	showImage();
+	});
+
+    QObject::connect( imageLabel, &QMouseEventerImage::mouseMoved, [this] (QMouseEvent *event) {
+    	auto pos = event->pos();
+    	int zoomFactor = zoomSpinBox->value();
+    	int imgX = pos.x() / zoomFactor;
+    	int imgY = pos.y() / zoomFactor;
+    	auto text = QString().sprintf("Coords: (%d, %d)", imgX, imgY);
+    	coordsLabel->setText(text);
+
+    	auto pixel = _srcImage.at<Vec3b>(imgY, imgX);
+    	rgbLabel->setText(QString().sprintf("RGB: (%d, %d, %d)", pixel[2], pixel[1], pixel[0]));
 	});
 }
 
 ViewerWindow::~ViewerWindow()
 {
+}
+
+void ViewerWindow::initializeImageWidget()
+{
+    imageLabel = new QMouseEventerImage(scrollAreaWidgetContents);
+    imageLabel->setObjectName(QStringLiteral("imageLabel"));
+    QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+    sizePolicy.setHorizontalStretch(0);
+    sizePolicy.setVerticalStretch(0);
+    sizePolicy.setHeightForWidth(imageLabel->sizePolicy().hasHeightForWidth());
+    imageLabel->setSizePolicy(sizePolicy);
+    imageLabel->setMinimumSize(QSize(0, 0));
+
+    verticalLayout_3->addWidget(imageLabel);
 }
 
 void ViewerWindow::showImage()

@@ -42,7 +42,6 @@ MainWindow::MainWindow(string initialImage)
         connect( this, &MainWindow::srcImageChanged, window, &ViewerWindow::imageChanged );
     	emit srcImageChanged(_srcImage);
 		window->show();
-    	//printf("mousePressEvent %d\n", event->pos().x());
 	});
 
     QObject::connect( dstImageLabel, &QMouseEventerImage::mousePressed, [this] (QMouseEvent *event) {

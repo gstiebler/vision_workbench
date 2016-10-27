@@ -11,6 +11,7 @@
 #include <QFileDialog>
 #include "ui_Viewer.h"
 #include <opencv2/opencv.hpp>
+#include "QMouseEventerImage.h"
 
 class ViewerWindow : public QDialog, private Ui::ViewerWindow
 {
@@ -25,6 +26,8 @@ public slots:
 
 private:
 	void showImage();
+	void initializeImageWidget();
+	QMouseEventerImage *imageLabel;
 	cv::Mat _srcImage;
 };
 

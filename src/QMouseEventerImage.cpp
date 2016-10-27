@@ -11,10 +11,16 @@
 QMouseEventerImage::QMouseEventerImage(QWidget *parent) :
 	QLabel(parent)
 {
+	setMouseTracking(true);
 }
 
 void QMouseEventerImage::mousePressEvent(QMouseEvent *event)
 {
 	emit mousePressed(event);
+}
+
+void QMouseEventerImage::mouseMoveEvent(QMouseEvent *event)
+{
+	emit mouseMoved(event);
 }
 

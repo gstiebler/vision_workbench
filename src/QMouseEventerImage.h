@@ -22,9 +22,11 @@ public:
 
 signals:
 	void mousePressed(QMouseEvent *event);
+	void mouseMoved(QMouseEvent *event);
 
 protected:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 };
 
 
