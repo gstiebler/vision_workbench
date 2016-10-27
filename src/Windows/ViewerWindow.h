@@ -22,6 +22,10 @@ public:
 
 public slots:
 	void imageChanged(cv::Mat &image);
+
+private:
+	void showImage();
+	cv::Mat _srcImage;
 };
 
 #endif /* SRC_WINDOWS_VIEWERWINDOW_H_ */

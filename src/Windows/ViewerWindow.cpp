@@ -15,19 +15,35 @@ ViewerWindow::ViewerWindow(QWidget *parent) :
 {
     setupUi(this);
 	setAttribute( Qt::WA_DeleteOnClose );
+
+	/*int originalWidth = imageLabel->width();
+	int originalHeight = imageLabel->height();*/
+
+    QObject::connect( zoomSpinBox, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), [=] (int value) {
+    	showImage();
+	});
 }
 
 ViewerWindow::~ViewerWindow()
 {
 }
 
-void ViewerWindow::imageChanged(cv::Mat &image)
+void ViewerWindow::showImage()
 {
-	QImage srcImage = QImage((const unsigned char*)(image.data),
-			image.cols, image.rows,
-			image.step, QImage::Format_RGB888).rgbSwapped();
+	Mat dstImg;
+	int zoomFactor = zoomSpinBox->value();
+	cv::resize(_srcImage, dstImg, Size(), (double)zoomFactor, (double)zoomFactor, INTER_NEAREST);
+	QImage srcImage = QImage((const unsigned char*)(dstImg.data),
+			dstImg.cols, dstImg.rows,
+			dstImg.step, QImage::Format_RGB888).rgbSwapped();
 
 	QPixmap pixmap = QPixmap::fromImage(srcImage);
 	imageLabel->setPixmap(pixmap);
 	imageLabel->show();
+}
+
+void ViewerWindow::imageChanged(cv::Mat &image)
+{
+	_srcImage = image;
+	showImage();
 }
