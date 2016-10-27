@@ -12,18 +12,20 @@
 #include "ImageProcessing/RegionGrowthLumOrdered/Region.h"
 #include "ImageProcessing/RegionGrowthLumOrdered/RegionsPainter.h"
 #include "TimeMeasure.h"
+#include <QMouseEvent>
 
 using namespace cv;
 
 RegionGrowthWindow::RegionGrowthWindow(QWidget *parent, WindowImagesInterface &windowImages) :
 	QDialog(parent),
 	_windowImages(windowImages),
-	_srcImage(windowImages.getSrcImage())
+	_srcImage(windowImages.getSrcImage()),
+	_pointDebug(-1, -1)
 {
 	setupUi(this);
 	setAttribute( Qt::WA_DeleteOnClose );
 
-    connect( executeButton, &QPushButton::clicked, this, &RegionGrowthWindow::executeClicked );
+    connect( executeButton, &QPushButton::clicked, this, &RegionGrowthWindow::execute );
 
 }
 
@@ -31,7 +33,7 @@ RegionGrowthWindow::~RegionGrowthWindow()
 {
 }
 
-void RegionGrowthWindow::executeClicked()
+void RegionGrowthWindow::execute()
 {
 	TimeMeasure tm;
 	const int DIF_HEIGHT_HISTORY_INDEX = difIndexHeightSpin->value();
@@ -40,8 +42,9 @@ void RegionGrowthWindow::executeClicked()
 	const int MAX_LUM = maxLumSpin->value();
 	Mat srcGray;
 	cvtColor( _srcImage, srcGray, CV_BGR2GRAY );
+	printf("Debug point: (%d, %d)\n", _pointDebug.x, _pointDebug.y);
 	RegionsManager regionsManager(_srcImage.cols, _srcImage.rows);
-	regionsManager.shouldStopRegionFn = [DIF_HEIGHT_HISTORY_INDEX, MIN_HEIGHT, MAX_HEIGHT_FACTOR, MAX_LUM] (Region &region) {
+	regionsManager.shouldStopRegionFn = [this, DIF_HEIGHT_HISTORY_INDEX, MIN_HEIGHT, MAX_HEIGHT_FACTOR, MAX_LUM] (Region &region) {
 		if((region.heightHistory.size() < DIF_HEIGHT_HISTORY_INDEX) ||
 		   (region.height() < MIN_HEIGHT))
 		{
@@ -49,9 +52,25 @@ void RegionGrowthWindow::executeClicked()
 		}
 		int currHeight = region.heightHistory.back();
 		int oldHeight = region.heightHistory[region.heightHistory.size() - DIF_HEIGHT_HISTORY_INDEX];
-		double heighFactor = currHeight * 1.0 / oldHeight;
-		bool hasHeightFactor = heighFactor < MAX_HEIGHT_FACTOR;
+		double heightFactor = currHeight * 1.0 / oldHeight;
+		bool hasHeightFactor = heightFactor < MAX_HEIGHT_FACTOR;
 		bool hasRightProportion = region.height() > region.width();
+
+
+		if((_pointDebug.x >= region.xMin) &&
+		   (_pointDebug.x <= region.xMax) &&
+		   (_pointDebug.y >= region.yMin) &&
+		   (_pointDebug.y <= region.yMax))
+		{
+			printf("id: %d, heightFactor: %lf, numHeights: %ld, numPoints: %ld, xMin: %d, xMax: %d, yMin: %d, yMax: %d\n", region.id, heightFactor,
+					region.heightHistory.size(),
+					region.points.size(),
+					region.xMin,
+					region.xMax,
+					region.yMin,
+					region.yMax);
+		}
+
 		return hasHeightFactor && hasRightProportion;
 	};
 	RegionGrowthLumOrdered regionGrowthLumOrdered( srcGray, regionsManager );
@@ -63,4 +82,10 @@ void RegionGrowthWindow::executeClicked()
 	paintByHeight(regionsManager.stoppedRegions, dstColor);
 
 	_windowImages.setDstImage(dstColor);
+}
+
+void RegionGrowthWindow::mousePressed(cv::Point &point)
+{
+	_pointDebug = point;
+	execute();
 }

@@ -24,9 +24,13 @@ public:
 public slots:
 	void imageChanged(cv::Mat &image);
 
+signals:
+	void mousePressed(cv::Point &point);
+
 private:
 	void showImage();
 	void initializeImageWidget();
+	cv::Point windowToImage(const cv::Point &input);
 	QMouseEventerImage *imageLabel;
 	cv::Mat _srcImage;
 };

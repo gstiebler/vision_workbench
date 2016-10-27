@@ -35,12 +35,13 @@ MainWindow::MainWindow(string initialImage)
     srcImageLabel = initializeImageWidget("srcImage", 0);
     dstImageLabel = initializeImageWidget("dstImage", 1);
 
-    connect( buttonExecute, SIGNAL( clicked() ), this, SLOT( executeClicked() ) );
+    QObject::connect( buttonExecute, &QPushButton::clicked, this, &MainWindow::executeClicked);
 
     QObject::connect( srcImageLabel, &QMouseEventerImage::mousePressed, [this] (QMouseEvent *event) {
     	ViewerWindow *window = new ViewerWindow(this);
         connect( this, &MainWindow::srcImageChanged, window, &ViewerWindow::imageChanged );
     	emit srcImageChanged(_srcImage);
+        QObject::connect( window, &ViewerWindow::mousePressed, this, &MainWindow::mousePressedOnViewerWindow);
 		window->show();
 	});
 
@@ -68,6 +69,7 @@ MainWindow::MainWindow(string initialImage)
 
     QObject::connect( regionGrowthWindowButton, &QPushButton::clicked, [this] () {
     	RegionGrowthWindow *window = new RegionGrowthWindow(this, *this);
+        QObject::connect(this, &MainWindow::mousePressedOnViewerWindow, window, &RegionGrowthWindow::mousePressed);
 		window->show();
 	});
 

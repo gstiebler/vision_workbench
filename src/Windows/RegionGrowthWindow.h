@@ -22,11 +22,16 @@ public:
 	RegionGrowthWindow(QWidget *parent, WindowImagesInterface &windowImages);
 	virtual ~RegionGrowthWindow();
 
+public slots:
+	void mousePressed(cv::Point &point);
+
 private:
 	WindowImagesInterface &_windowImages;
 	cv::Mat &_srcImage;
+	cv::Point _pointDebug;
 
 	void executeClicked();
+	void execute();
 };
 
 #endif /* SRC_WINDOWS_REGIONGROWTHWINDOW_H_ */

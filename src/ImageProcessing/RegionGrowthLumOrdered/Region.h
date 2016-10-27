@@ -45,12 +45,12 @@ public:
 	bool stopped;
 	std::vector<int> heightHistory;
 
+	/** The points of the region */
+	std::vector<cv::Point> points;
+
 private:
 
 	void replaceId(int newId);
-
-	/** The points of the region */
-	std::vector<cv::Point> _points;
 
 	/** The unique and only regions manager */
 	RegionsManager *_regionsManager;

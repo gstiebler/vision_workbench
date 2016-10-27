@@ -34,7 +34,7 @@ void Region::addPoint( const Point &point )
 {
 	if(stopped) return;
 
-	_points.push_back( point );
+	points.push_back( point );
 
 	xMin = min(point.x, xMin);
 	xMax = max(point.x, xMax);
@@ -81,11 +81,11 @@ bool Region::wasMergedIntoAnotherRegion() const
 	return !_destMergedRegion;
 }
 
-void Region::getPoints(std::vector<cv::Point> &points) const
+void Region::getPoints(std::vector<cv::Point> &outPoints) const
 {
-	points.insert(points.end(), _points.begin(), _points.end());
+	outPoints.insert(outPoints.end(), points.begin(), points.end());
 	for(auto &srcRegion : _srcMergedRegions)
 	{
-		srcRegion->getPoints(points);
+		srcRegion->getPoints(outPoints);
 	}
 }

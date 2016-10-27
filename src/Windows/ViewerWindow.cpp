@@ -23,16 +23,18 @@ ViewerWindow::ViewerWindow(QWidget *parent) :
 	});
 
     QObject::connect( imageLabel, &QMouseEventerImage::mouseMoved, [this] (QMouseEvent *event) {
-    	auto pos = event->pos();
-    	int zoomFactor = zoomSpinBox->value();
-    	int imgX = pos.x() / zoomFactor;
-    	int imgY = pos.y() / zoomFactor;
-    	auto text = QString().sprintf("Coords: (%d, %d)", imgX, imgY);
+    	auto point = windowToImage(Point(event->pos().x(), event->pos().y()));
+    	auto text = QString().sprintf("Coords: (%d, %d)", point.x, point.y);
     	coordsLabel->setText(text);
 
-    	auto pixel = _srcImage.at<Vec3b>(imgY, imgX);
+    	auto pixel = _srcImage.at<Vec3b>(point.y, point.x);
     	rgbLabel->setText(QString().sprintf("RGB: (%d, %d, %d)", pixel[2], pixel[1], pixel[0]));
 	});
+
+    QObject::connect( imageLabel, &QMouseEventerImage::mousePressed, [=] (QMouseEvent *event) {
+    	auto point = windowToImage(Point(event->pos().x(), event->pos().y()));
+    	emit mousePressed(point);
+    });
 }
 
 ViewerWindow::~ViewerWindow()
@@ -71,4 +73,12 @@ void ViewerWindow::imageChanged(cv::Mat &image)
 {
 	_srcImage = image;
 	showImage();
+}
+
+Point ViewerWindow::windowToImage(const Point &input)
+{
+	int zoomFactor = zoomSpinBox->value();
+	int imgX = input.x / zoomFactor;
+	int imgY = input.y / zoomFactor;
+	return Point(imgX, imgY);
 }

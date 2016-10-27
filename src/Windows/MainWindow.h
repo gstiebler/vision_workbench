@@ -40,6 +40,7 @@ public:
 signals:
 	void srcImageChanged(cv::Mat &image);
 	void dstImageChanged(cv::Mat &image);
+	void mousePressedOnViewerWindow(cv::Point &point);
 
 private slots:
 
