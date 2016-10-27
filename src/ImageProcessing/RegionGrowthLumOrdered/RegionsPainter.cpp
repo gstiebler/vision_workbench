@@ -20,14 +20,14 @@ void paintByHeight(vector<Region*> &regions, Mat &dstImg)
 	int minHeight = dstImg.rows;
 	for(auto &region : regions)
 	{
-		minHeight = min(minHeight, region->height());
-		maxHeight = max(maxHeight, region->height());
+		minHeight = min(minHeight, region->limits.height());
+		maxHeight = max(maxHeight, region->limits.height());
 	}
 	for(auto &region : regions)
 	{
 		vector<Point> points;
 		region->getPoints(points);
-		double factor = 1.0 - ((region->height() - minHeight) * 1.0 / maxHeight) * 0.8;
+		double factor = 1.0 - ((region->limits.height() - minHeight) * 1.0 / maxHeight) * 0.8;
 		uchar p = factor * 255;
 		for(auto &point : points)
 		{

@@ -8,20 +8,15 @@
 #include "Region.h"
 #include "RegionsManager.h"
 #include <assert.h>
-#include <algorithm>
 
 using namespace std;
 using namespace cv;
-
 
 Region::Region( RegionsManager *regionsManager, int id ) :
 	_regionsManager( regionsManager ),
 	id( id ),
 	stopped(false),
-	xMin( 10000000 ),
-	xMax( -1 ),
-	yMin( 10000000 ),
-	yMax( -1 ),
+	limits({1000000, -1, 1000000, -1}),
 	_destMergedRegion( nullptr )
 {
 }
@@ -35,22 +30,13 @@ void Region::addPoint( const Point &point )
 	if(stopped) return;
 
 	points.push_back( point );
-
-	xMin = min(point.x, xMin);
-	xMax = max(point.x, xMax);
-	yMin = min(point.y, yMin);
-	yMax = max(point.y, yMax);
-
+	limits.addPoint(point);
 	_regionsManager->setRegion( point, this );
 }
 
 void Region::merge( Region *other )
 {
-	xMin = min(xMin, other->xMin);
-	xMax = max(xMax, other->xMax);
-	yMin = min(yMin, other->yMin);
-	yMax = max(yMax, other->yMax);
-
+	limits.merge(other->limits);
 	_destMergedRegion = other;
 	other->_srcMergedRegions.push_back(this);
 
@@ -64,16 +50,6 @@ void Region::replaceId(int newId)
 	{
 		srcRegion->replaceId(newId);
 	}
-}
-
-int Region::width() const
-{
-	return xMax - xMin + 1;
-}
-
-int Region::height() const
-{
-	return yMax - yMin + 1;
 }
 
 bool Region::wasMergedIntoAnotherRegion() const

@@ -80,7 +80,7 @@ void RegionsManager::processRegionsAfterLum()
 	while(regionIt != activeRegions.end())
 	{
 		Region *region = (*regionIt).second;
-		region->heightHistory.push_back(region->height());
+		region->heightHistory.push_back(region->limits.height());
 
 		if(shouldStopRegionFn(*region))
 		{

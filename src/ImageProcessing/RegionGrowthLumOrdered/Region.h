@@ -10,6 +10,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <vector>
+#include "Rectangle.h"
 
 class RegionsManager;
 
@@ -35,12 +36,10 @@ public:
 
 	Region* finalRegion();
 
-	int width() const;
-	int height() const;
 	bool wasMergedIntoAnotherRegion() const;
 	void getPoints(std::vector<cv::Point> &points) const;
 
-	int xMin, xMax, yMin, yMax;
+	Rectangle limits;
 	int id;
 	bool stopped;
 	std::vector<int> heightHistory;
