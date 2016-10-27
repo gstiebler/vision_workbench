@@ -19,6 +19,7 @@ struct Rectangle
 	int width() const;
 	int height() const;
 	bool isInside(const cv::Point &point) const;
+	std::string toString();
 };
 
 #endif /* SRC_RECTANGLE_H_ */

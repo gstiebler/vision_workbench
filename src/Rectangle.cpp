@@ -44,3 +44,10 @@ bool Rectangle::isInside(const cv::Point &point) const
 	   (point.y >= yMin) &&
 	   (point.y <= yMax);
 }
+
+std::string Rectangle::toString()
+{
+	char result[100];
+	sprintf(result, "(%d, %d), (%d, %d)", xMin, xMax, yMin, yMax);
+	return result;
+}
