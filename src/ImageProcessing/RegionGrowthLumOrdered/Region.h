@@ -50,6 +50,7 @@ public:
 private:
 
 	void replaceId(int newId);
+	void mergeHistory(std::vector<Rectangle> &other);
 
 	/** The unique and only regions manager */
 	RegionsManager *_regionsManager;

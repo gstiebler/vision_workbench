@@ -75,7 +75,6 @@ void RegionGrowthLumOrdered::exec(uchar maxLum, RegionsAnalyzer *regionsAnalyzer
 
 	for(int lum(0); lum <= maxLum; ++lum)
 	{
-		printf("Lum: %d\n", lum);
 		vector<Point> &currentLums = _lums[lum];
 		int size = (int) currentLums.size();
 		for(int n(0); n < size; ++n)

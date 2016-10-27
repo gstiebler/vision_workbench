@@ -39,7 +39,7 @@ void Region::merge( Region *other )
 	limits.merge(other->limits);
 	_destMergedRegion = other;
 	other->_srcMergedRegions.push_back(this);
-
+	mergeHistory(other->rectHistory);
 	replaceId(other->id);
 }
 
@@ -54,7 +54,7 @@ void Region::replaceId(int newId)
 
 bool Region::wasMergedIntoAnotherRegion() const
 {
-	return !_destMergedRegion;
+	return _destMergedRegion;
 }
 
 void Region::getPoints(std::vector<cv::Point> &outPoints) const
@@ -64,4 +64,32 @@ void Region::getPoints(std::vector<cv::Point> &outPoints) const
 	{
 		srcRegion->getPoints(outPoints);
 	}
+}
+
+void Region::mergeHistory(vector<Rectangle> &other)
+{
+	vector<Rectangle> result;
+	vector<Rectangle>::iterator mainIt, mainEndIt, secondaryIt;
+	if(rectHistory.size() > other.size())
+	{
+		result = rectHistory;
+		mainIt = result.begin() + rectHistory.size() - other.size();
+		mainEndIt = result.end();
+		secondaryIt = other.begin();
+	}
+	else
+	{
+		result = other;
+		mainIt = result.begin() + other.size() - rectHistory.size();
+		mainEndIt = result.end();
+		secondaryIt = rectHistory.begin();
+	}
+
+	while(mainIt != mainEndIt)
+	{
+		mainIt->merge(*secondaryIt);
+		mainIt++;
+		secondaryIt++;
+	}
+	rectHistory = result;
 }
