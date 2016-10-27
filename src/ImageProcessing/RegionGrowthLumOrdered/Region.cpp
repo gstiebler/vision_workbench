@@ -36,10 +36,10 @@ void Region::addPoint( const Point &point )
 
 void Region::merge( Region *other )
 {
-	limits.merge(other->limits);
+	other->limits.merge(limits);
 	_destMergedRegion = other;
 	other->_srcMergedRegions.push_back(this);
-	mergeHistory(other->rectHistory);
+	other->mergeHistory(rectHistory);
 	replaceId(other->id);
 }
 

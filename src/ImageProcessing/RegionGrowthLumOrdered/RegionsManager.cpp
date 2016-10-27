@@ -88,8 +88,8 @@ void RegionsManager::processRegionsAfterLum()
 			stoppedRegions.push_back(region);
 
 			auto previous = regionIt;
-			activeRegions.erase(previous);
 			regionIt++;
+			activeRegions.erase(previous);
 		}
 		else
 		{
