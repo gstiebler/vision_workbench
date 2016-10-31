@@ -34,14 +34,13 @@ void platePointsBool(Mat &inputGrayImg, Mat &outputImg, PlateLocationParams &par
 }
 
 void platePoints(Mat &inputGrayImg, Mat &outputImg, PlateLocationParams &params, plFunc func) {
-	outputImg.resize(inputGrayImg.rows, inputGrayImg.cols - params.xOffset * 2);
+	outputImg.resize(inputGrayImg.rows, inputGrayImg.cols);
 
-	for(int y(0); y < outputImg.rows; ++y) {
-		for(int x(0); x < outputImg.cols; ++x) {
-			int xInput = x + params.xOffset;
-			uchar inputCenter = inputGrayImg.at<uchar>(y, xInput);
-			uchar inputLeft = inputGrayImg.at<uchar>(y, xInput - params.xOffset);
-			uchar inputRight = inputGrayImg.at<uchar>(y, xInput + params.xOffset);
+	for(int y(0); y < inputGrayImg.rows; ++y) {
+		for(int x(params.xOffset); x < inputGrayImg.cols - params.xOffset; ++x) {
+			uchar inputCenter = inputGrayImg.at<uchar>(y, x);
+			uchar inputLeft = inputGrayImg.at<uchar>(y, x - params.xOffset);
+			uchar inputRight = inputGrayImg.at<uchar>(y, x + params.xOffset);
 			int difLeft = inputLeft - inputCenter;
 			difLeft = max(difLeft, 0);
 			int difRight = inputRight - inputCenter;

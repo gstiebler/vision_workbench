@@ -60,7 +60,7 @@ void PlateLocationWindow::executeBool() {
 
 	Mat inputGray;
 	cvtColor( _srcImage, inputGray, CV_BGR2GRAY );
-	Mat outGrayImg(_srcImage.rows, _srcImage.cols, CV_8UC1);
+	Mat outGrayImg(_srcImage.rows, _srcImage.cols, CV_8UC1, Scalar(0));
 	platePointsBool(inputGray, outGrayImg, params);
 	outGrayImg *= 255;
 
@@ -75,7 +75,7 @@ void PlateLocationWindow::executeSum() {
 
 	Mat inputGray;
 	cvtColor( _srcImage, inputGray, CV_BGR2GRAY );
-	Mat platePointsImg(_srcImage.rows, _srcImage.cols, CV_8UC1);
+	Mat platePointsImg(_srcImage.rows, _srcImage.cols, CV_8UC1, Scalar(0));
 	TimeMeasure tm;
 	platePointsBool(inputGray, platePointsImg, params);
 
@@ -99,7 +99,7 @@ void PlateLocationWindow::executeRegions() {
 
 	Mat inputGray;
 	cvtColor( _srcImage, inputGray, CV_BGR2GRAY );
-	Mat platePointsImg(_srcImage.rows, _srcImage.cols, CV_8UC1);
+	Mat platePointsImg(_srcImage.rows, _srcImage.cols, CV_8UC1, Scalar(0));
 	TimeMeasure tm;
 	platePointsBool(inputGray, platePointsImg, params);
 
@@ -110,7 +110,7 @@ void PlateLocationWindow::executeRegions() {
 
 	_windowImages.setStatus(tm.getTime());
 
-	Mat colorImg = _srcImage;
+	Mat colorImg = _srcImage.clone();
 	Scalar red(0, 0, 255);
 	for(auto &region : plateRegions) {
 		Point p1(region.x, region.y);
