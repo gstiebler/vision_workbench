@@ -14,34 +14,13 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QPushButton" name="buttonExecute">
+       <widget class="QPushButton" name="colorMapButton">
         <property name="text">
-         <string>Open file</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="filesWindowButton">
-        <property name="text">
-         <string>Files Window</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="thresholdButton">
-        <property name="text">
-         <string>Threshold</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="videoWindowButton">
-        <property name="text">
-         <string>Open video capture</string>
+         <string>Color Map</string>
         </property>
        </widget>
       </item>
@@ -53,26 +32,50 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="colorMapButton">
+       <widget class="QPushButton" name="videoWindowButton">
         <property name="text">
-         <string>Color Map</string>
+         <string>Open video capture</string>
         </property>
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer">
+       <widget class="QPushButton" name="thresholdButton">
+        <property name="text">
+         <string>Threshold</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="filesWindowButton">
+        <property name="text">
+         <string>Files Window</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="buttonExecute">
+        <property name="text">
+         <string>Open file</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Vertical</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>40</width>
-          <height>20</height>
+          <width>20</width>
+          <height>40</height>
          </size>
         </property>
        </spacer>
       </item>
      </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_2"/>
     </item>
    </layout>
   </widget>

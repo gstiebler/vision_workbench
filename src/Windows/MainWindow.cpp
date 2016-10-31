@@ -97,14 +97,14 @@ QMouseEventerImage* MainWindow::initializeImageWidget(QString name, int index)
 {
 	QMouseEventerImage *mei = new QMouseEventerImage(centralwidget);
 	mei->setObjectName(name);
-    QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+    QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     sizePolicy.setHorizontalStretch(0);
     sizePolicy.setVerticalStretch(0);
     sizePolicy.setHeightForWidth(mei->sizePolicy().hasHeightForWidth());
     mei->setSizePolicy(sizePolicy);
     mei->setMinimumSize(QSize(0, 400));
     mei->setScaledContents(false);
-    verticalLayout->insertWidget(index, mei);
+    verticalLayout_2->insertWidget(index, mei);
     return mei;
 }
 
