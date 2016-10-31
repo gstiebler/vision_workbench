@@ -97,6 +97,10 @@ MainWindow::MainWindow(string initialImage)
     	setDstImage(dstImage);
 	});
 
+    QObject::connect( copyButton, &QPushButton::clicked, [this] () {
+    	setSrcImage(_dstImage);
+	});
+
     if(initialImage != "")
     {
 		Mat srcImage = imread( initialImage.c_str(), 1 );
