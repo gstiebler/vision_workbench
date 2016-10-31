@@ -11,7 +11,6 @@
 #include <QFileDialog>
 #include "ui_PlateLocation.h"
 #include <opencv2/opencv.hpp>
-
 class WindowImagesInterface;
 
 class PlateLocationWindow : public QDialog, private Ui::PlateLocationWindow {

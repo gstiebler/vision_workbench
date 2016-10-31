@@ -24,7 +24,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QSpinBox" name="maxDif">
+      <widget class="QSpinBox" name="maxDifSpin">
        <property name="value">
         <number>10</number>
        </property>
@@ -39,8 +39,11 @@
      </item>
      <item row="0" column="1">
       <widget class="QSpinBox" name="difXSpin">
+       <property name="minimum">
+        <number>1</number>
+       </property>
        <property name="value">
-        <number>20</number>
+        <number>5</number>
        </property>
       </widget>
      </item>

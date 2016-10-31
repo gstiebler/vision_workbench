@@ -31,6 +31,7 @@ set( SOURCES
     ${SRC_BASE}/Windows/PlateLocationWindow.cpp
     ${SRC_BASE}/QMouseEventerImage.cpp
     ${SRC_BASE}/Rectangle.cpp
+    ${SRC_BASE}/ImageProcessing/PlateLocation.cpp
     ${SRC_BASE}/ImageProcessing/RegionGrowthLumOrdered/RegionGrowthLumOrdered.cpp
     ${SRC_BASE}/ImageProcessing/RegionGrowthLumOrdered/Region.cpp
     ${SRC_BASE}/ImageProcessing/RegionGrowthLumOrdered/RegionsManager.cpp
