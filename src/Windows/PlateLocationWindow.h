@@ -30,6 +30,7 @@ private:
 	void getParams(PlateLocationParams &params);
 	void executeFloat();
 	void executeBool();
+	void executeSum();
 };
 
 #endif /* SRC_WINDOWS_PLATELOCATIONWINDOW_H_ */

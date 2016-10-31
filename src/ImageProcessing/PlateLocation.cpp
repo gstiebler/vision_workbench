@@ -27,7 +27,7 @@ void platePointsBool(Mat &inputGrayImg, Mat &outputImg, PlateLocationParams &par
 		if(lowestDif < params.minDifX) return 0;
 		int maxDifLaterals = params.maxDifLateralsProp * lowestDif;
 		if(difLaterals > maxDifLaterals) return 0;
-		return 255;
+		return 1;
 	};
 	platePoints(inputGrayImg, outputImg, params, func);
 }
@@ -48,6 +48,39 @@ void platePoints(Mat &inputGrayImg, Mat &outputImg, PlateLocationParams &params,
 			int difLaterals = abs((int)inputLeft - inputRight);
 			int output = func(difLeft, difRight, difLaterals);
 			outputImg.at<uchar>(y, x) = output;
+		}
+	}
+}
+
+void subSum(Mat &inputGrayImg, Mat &outputImg, PlateLocationParams &params) {
+	Mat rowSum(inputGrayImg.rows, inputGrayImg.cols - params.plateWidth + 1, CV_32SC1, Scalar(0));
+	for(int y(0); y < inputGrayImg.rows; ++y) {
+		int sum = 0;
+		for(int x(0); x < params.plateWidth; ++x) {
+			sum += inputGrayImg.at<uchar>(y, x);
+		}
+		rowSum.at<uint>(y, 0) = sum;
+
+		for(int x(params.plateWidth); x < inputGrayImg.cols; ++x) {
+			sum -= inputGrayImg.at<uchar>(y, x - params.plateWidth);
+			sum += inputGrayImg.at<uchar>(y, x);
+			rowSum.at<uint>(y, x - params.plateWidth + 1) = sum;
+		}
+	}
+
+	outputImg.resize(rowSum.rows - params.plateHeight + 1, rowSum.cols);
+	//Mat colSum(rowSum.rows - params.plateHeight + 1, rowSum.cols, CV_32SC1, Scalar(0));
+	for(int x(0); x < rowSum.cols; ++x) {
+		int sum = 0;
+		for(int y(0); y < params.plateHeight; ++y) {
+			sum += rowSum.at<uint>(y, x);
+		}
+		outputImg.at<uint>(0, x) = sum;
+
+		for(int y(params.plateHeight); y < outputImg.rows; ++y) {
+			sum -= rowSum.at<uint>(y - params.plateHeight, x);
+			sum += rowSum.at<uint>(y, x);
+			outputImg.at<uint>(y - params.plateHeight / 2 + 1, x + params.plateWidth / 2) = sum;
 		}
 	}
 }
