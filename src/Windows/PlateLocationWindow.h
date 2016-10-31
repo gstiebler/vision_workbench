@@ -31,6 +31,7 @@ private:
 	void executeFloat();
 	void executeBool();
 	void executeSum();
+	void executeRegions();
 };
 
 #endif /* SRC_WINDOWS_PLATELOCATIONWINDOW_H_ */

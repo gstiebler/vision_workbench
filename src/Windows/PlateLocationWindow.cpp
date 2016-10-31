@@ -24,6 +24,7 @@ PlateLocationWindow::PlateLocationWindow(QWidget *parent, WindowImagesInterface 
     connect( executeFloatButton, &QPushButton::clicked, this, &PlateLocationWindow::executeFloat );
     connect( executeBoolButton, &QPushButton::clicked, this, &PlateLocationWindow::executeBool );
     connect( executeSumButton, &QPushButton::clicked, this, &PlateLocationWindow::executeSum );
+    connect( executeRegionsButton, &QPushButton::clicked, this, &PlateLocationWindow::executeRegions );
 }
 
 PlateLocationWindow::~PlateLocationWindow() {
@@ -35,6 +36,7 @@ void PlateLocationWindow::getParams(PlateLocationParams &params) {
 	params.maxDifLateralsProp = maxDifLateralsProp->value();
 	params.plateWidth = plateWidthSpin->value();
 	params.plateHeight = plateHeightSpin->value();
+	params.numRegions = numRegionsSpin->value();
 }
 
 void PlateLocationWindow::executeFloat() {
@@ -88,5 +90,33 @@ void PlateLocationWindow::executeSum() {
 
 	Mat colorImg;
 	applyColorMap(outGrayImg, colorImg, COLORMAP_JET);
+	_windowImages.setDstImage(colorImg);
+}
+
+void PlateLocationWindow::executeRegions() {
+	PlateLocationParams params;
+	getParams(params);
+
+	Mat inputGray;
+	cvtColor( _srcImage, inputGray, CV_BGR2GRAY );
+	Mat platePointsImg(_srcImage.rows, _srcImage.cols, CV_8UC1);
+	TimeMeasure tm;
+	platePointsBool(inputGray, platePointsImg, params);
+
+	Mat sumMat(_srcImage.rows, _srcImage.cols, CV_32SC1, Scalar(0));
+	subSum(platePointsImg, sumMat, params);
+	vector<Rect> plateRegions;
+	regions(sumMat, plateRegions, params);
+
+	_windowImages.setStatus(tm.getTime());
+
+	Mat colorImg = _srcImage;
+	Scalar red(0, 0, 255);
+	for(auto &region : plateRegions) {
+		Point p1(region.x, region.y);
+		Point p2(region.x + params.plateWidth, region.y + params.plateHeight);
+		rectangle(colorImg, p1, p2, red, 2);
+	}
+
 	_windowImages.setDstImage(colorImg);
 }

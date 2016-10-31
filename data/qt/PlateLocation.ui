@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>185</width>
-    <height>318</height>
+    <height>396</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,6 +27,26 @@
       <widget class="QLabel" name="label_4">
        <property name="text">
         <string>Plate width</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QSpinBox" name="plateWidthSpin">
+       <property name="maximum">
+        <number>1000</number>
+       </property>
+       <property name="value">
+        <number>280</number>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QSpinBox" name="plateHeightSpin">
+       <property name="maximum">
+        <number>200</number>
+       </property>
+       <property name="value">
+        <number>44</number>
        </property>
       </widget>
      </item>
@@ -54,6 +74,13 @@
        </property>
       </widget>
      </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Plate height</string>
+       </property>
+      </widget>
+     </item>
      <item row="2" column="1">
       <widget class="QDoubleSpinBox" name="maxDifLateralsProp">
        <property name="singleStep">
@@ -74,30 +101,20 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="label_5">
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_6">
        <property name="text">
-        <string>Plate height</string>
+        <string>Num regions</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QSpinBox" name="plateWidthSpin">
-       <property name="maximum">
-        <number>1000</number>
+     <item row="5" column="1">
+      <widget class="QSpinBox" name="numRegionsSpin">
+       <property name="minimum">
+        <number>1</number>
        </property>
        <property name="value">
-        <number>280</number>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QSpinBox" name="plateHeightSpin">
-       <property name="maximum">
-        <number>200</number>
-       </property>
-       <property name="value">
-        <number>44</number>
+        <number>3</number>
        </property>
       </widget>
      </item>
@@ -121,6 +138,13 @@
     <widget class="QPushButton" name="executeSumButton">
      <property name="text">
       <string>Execute sum</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="executeRegionsButton">
+     <property name="text">
+      <string>Execute regions</string>
      </property>
     </widget>
    </item>

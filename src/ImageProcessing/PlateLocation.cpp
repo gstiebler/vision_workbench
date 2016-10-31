@@ -7,6 +7,7 @@
 
 #include "PlateLocation.h"
 #include <algorithm>
+#include "Rectangle.h"
 
 using namespace std;
 using namespace cv;
@@ -82,5 +83,22 @@ void subSum(Mat &inputGrayImg, Mat &outputImg, PlateLocationParams &params) {
 			sum += rowSum.at<uint>(y, x);
 			outputImg.at<uint>(y - params.plateHeight / 2 + 1, x + params.plateWidth / 2) = sum;
 		}
+	}
+}
+
+void regions(cv::Mat &sumMat, std::vector<cv::Rect> &plateLocations, PlateLocationParams &params) {
+	for(int n(0); n < params.numRegions; ++n) {
+		Point maxLoc;
+		minMaxLoc(sumMat, nullptr, nullptr, nullptr, &maxLoc);
+		Rect region(maxLoc.x - params.plateWidth / 2, maxLoc.y - params.plateHeight / 2, params.plateWidth, params.plateHeight);
+		plateLocations.push_back(region);
+
+		Rectangle extRegion({maxLoc.x - params.plateWidth, maxLoc.x + params.plateWidth, maxLoc.y - params.plateHeight, maxLoc.y + params.plateHeight});
+		extRegion.xMin = max(extRegion.xMin, 0);
+		extRegion.yMin = max(extRegion.yMin, 0);
+		extRegion.xMax = min(extRegion.xMax, sumMat.rows - 1);
+		extRegion.yMax = min(extRegion.yMax, sumMat.cols - 1);
+		Mat pRoi = sumMat(Rect(extRegion.xMin, extRegion.yMin, extRegion.width(), extRegion.height()));
+		pRoi.setTo(cv::Scalar(0));
 	}
 }
