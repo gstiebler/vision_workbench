@@ -76,10 +76,10 @@ void PlateLocationWindow::executeSum() {
 	Mat inputGray;
 	cvtColor( _srcImage, inputGray, CV_BGR2GRAY );
 	Mat platePointsImg(_srcImage.rows, _srcImage.cols, CV_8UC1, Scalar(0));
-	TimeMeasure tm;
-	platePointsBool(inputGray, platePointsImg, params);
 
 	Mat sumMat(_srcImage.rows, _srcImage.cols, CV_32SC1, Scalar(0));
+	TimeMeasure tm;
+	platePointsBool(inputGray, platePointsImg, params);
 	subSum(platePointsImg, sumMat, params);
 	_windowImages.setStatus(tm.getTime());
 	double maxValue;

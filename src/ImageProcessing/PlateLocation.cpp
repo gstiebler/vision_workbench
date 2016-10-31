@@ -95,8 +95,8 @@ void regions(cv::Mat &sumMat, std::vector<cv::Rect> &plateLocations, PlateLocati
 		Rectangle extRegion({maxLoc.x - params.plateWidth, maxLoc.x + params.plateWidth, maxLoc.y - params.plateHeight, maxLoc.y + params.plateHeight});
 		extRegion.xMin = max(extRegion.xMin, 0);
 		extRegion.yMin = max(extRegion.yMin, 0);
-		extRegion.xMax = min(extRegion.xMax, sumMat.rows - 1);
-		extRegion.yMax = min(extRegion.yMax, sumMat.cols - 1);
+		extRegion.xMax = min(extRegion.xMax, sumMat.cols - 1);
+		extRegion.yMax = min(extRegion.yMax, sumMat.rows - 1);
 		Mat pRoi = sumMat(Rect(extRegion.xMin, extRegion.yMin, extRegion.width(), extRegion.height()));
 		pRoi.setTo(cv::Scalar(0));
 	}
