@@ -73,19 +73,16 @@ void RegionGrowthLumOrdered::exec(uchar maxLum, RegionsAnalyzer *regionsAnalyzer
 	initLums(_srcImg);
 	initDirections(_vX, _vY);
 
-	for(int lum(0); lum <= maxLum; ++lum)
-	{
+	for(int lum(0); lum <= maxLum; ++lum) {
 		vector<Point> &currentLums = _lums[lum];
 		int size = (int) currentLums.size();
-		for(int n(0); n < size; ++n)
-		{
+		for(int n(0); n < size; ++n) {
 			Point &point = currentLums[n];
 			processPoint(point);
 		}
 
 		_regionsManager.processRegionsAfterLum();
-		if(regionsAnalyzer)
-		{
+		if(regionsAnalyzer) {
 			regionsAnalyzer->analyze(_regionsManager);
 		}
 	}
@@ -96,32 +93,25 @@ void RegionGrowthLumOrdered::processPoint(const cv::Point &point)
 	// using map instead of set to avoid execution dependency on pointer values
 	map<int, Region*> regionsMap;
 
-	for(int k(0); k < 8; ++k)
-	{
+	for(int k(0); k < 8; ++k) {
 		Point nPoint(point.x + _vX[k], point.y + _vY[k]);
 		Region* region = _regionsManager.getRegion( nPoint );
-		if( region )
-		{
+		if( region ) {
 			regionsMap[region->id] = region;
 		}
 	}
 
-	if( regionsMap.size() == 0 )
+	if( regionsMap.size() == 0 ) {
 		_regionsManager.createRegion( point );
-	else if ( regionsMap.size() == 1 )
-	{
+	} else if ( regionsMap.size() == 1 ) {
 		Region *firstRegion = (*(regionsMap.begin())).second;
 		firstRegion->addPoint( point );
-	}
-	else
-	{
+	} else {
 		std::vector<Region*> regionsVec;
-		for(auto &regionkv : regionsMap)
-		{
+		for(auto &regionkv : regionsMap) {
 			regionsVec.push_back(regionkv.second);
 		}
-		for(size_t i(1); i < regionsVec.size(); ++i)
-		{
+		for(size_t i(1); i < regionsVec.size(); ++i) {
 			_regionsManager.mergeRegions( regionsVec[i], regionsVec[i - 1], point );
 		}
 	}
