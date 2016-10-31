@@ -12,14 +12,16 @@
 #include <functional>
 
 struct PlateLocationParams {
-	int difX;
-	int minDif;
+	int xOffset;
+	int minDifX;
+	float maxDifLateralsProp;
 };
 
-typedef std::function<float(uchar difLeft, uchar difRight, uchar difLaterals)> plFunc;
+typedef std::function<uchar(uchar difLeft, uchar difRight, uchar difLaterals)> plFunc;
 
 
 void platePointsFloat(cv::Mat &inputGrayImg, cv::Mat &outputImg, PlateLocationParams &params);
+void platePointsBool(cv::Mat &inputGrayImg, cv::Mat &outputImg, PlateLocationParams &params);
 void platePoints(cv::Mat &inputGrayImg, cv::Mat &outputImg, PlateLocationParams &params, plFunc func);
 
 #endif /* SRC_IMAGEPROCESSING_PLATELOCATION_H_ */

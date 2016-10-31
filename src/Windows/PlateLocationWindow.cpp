@@ -20,18 +20,22 @@ PlateLocationWindow::PlateLocationWindow(QWidget *parent, WindowImagesInterface 
 	setupUi(this);
 	setAttribute( Qt::WA_DeleteOnClose );
 
-    connect( executeButton, &QPushButton::clicked, this, &PlateLocationWindow::execute );
+    connect( executeFloatButton, &QPushButton::clicked, this, &PlateLocationWindow::executeFloat );
+    connect( executeBoolButton, &QPushButton::clicked, this, &PlateLocationWindow::executeBool );
 }
 
 PlateLocationWindow::~PlateLocationWindow() {
 }
 
+void PlateLocationWindow::getParams(PlateLocationParams &params) {
+	params.xOffset = xOffsetSpin->value();
+	params.minDifX = minDifSpin->value();
+	params.maxDifLateralsProp = maxDifLateralsProp->value();
+}
 
-void PlateLocationWindow::execute()
-{
+void PlateLocationWindow::executeFloat() {
 	PlateLocationParams params;
-	params.difX = difXSpin->value();
-	params.minDif = maxDifSpin->value();
+	getParams(params);
 
 	Mat inputGray;
 	cvtColor( _srcImage, inputGray, CV_BGR2GRAY );
@@ -39,6 +43,20 @@ void PlateLocationWindow::execute()
 	platePointsFloat(inputGray, outGrayImg, params);
 	Mat ones(_srcImage.rows, _srcImage.cols, CV_8UC1, 255);
 	outGrayImg = ones - outGrayImg;
+	Mat colorImg;
+	cvtColor( outGrayImg, colorImg, CV_GRAY2BGR );
+	_windowImages.setDstImage(colorImg);
+}
+
+
+void PlateLocationWindow::executeBool() {
+	PlateLocationParams params;
+	getParams(params);
+
+	Mat inputGray;
+	cvtColor( _srcImage, inputGray, CV_BGR2GRAY );
+	Mat outGrayImg(_srcImage.rows, _srcImage.cols, CV_8UC1);
+	platePointsBool(inputGray, outGrayImg, params);
 	Mat colorImg;
 	cvtColor( outGrayImg, colorImg, CV_GRAY2BGR );
 	_windowImages.setDstImage(colorImg);

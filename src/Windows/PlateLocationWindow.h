@@ -11,7 +11,9 @@
 #include <QFileDialog>
 #include "ui_PlateLocation.h"
 #include <opencv2/opencv.hpp>
+
 class WindowImagesInterface;
+struct PlateLocationParams;
 
 class PlateLocationWindow : public QDialog, private Ui::PlateLocationWindow {
     Q_OBJECT
@@ -25,7 +27,9 @@ private:
 	WindowImagesInterface &_windowImages;
 	cv::Mat &_srcImage;
 
-	void execute();
+	void getParams(PlateLocationParams &params);
+	void executeFloat();
+	void executeBool();
 };
 
 #endif /* SRC_WINDOWS_PLATELOCATIONWINDOW_H_ */
