@@ -58,7 +58,10 @@ void RegionGrowthWindow::execute()
 
 		if(region.limits.isInside(_pointDebug))
 		{
-			printf("id: %d, heightFactor: %lf, numHeights: %ld, numPoints: %ld, xMin: %d, xMax: %d, yMin: %d, yMax: %d\n", region.id, heightFactor,
+			printf("id: %d, oldHeight: %d, newHeight: %d, numHeights: %ld, numPoints: %ld, xMin: %d, xMax: %d, yMin: %d, yMax: %d\n",
+					region.id,
+					oldRect.height(),
+					currRect.height(),
 					region.rectHistory.size(),
 					region.points.size(),
 					region.limits.xMin,
