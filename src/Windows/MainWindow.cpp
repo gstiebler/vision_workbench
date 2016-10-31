@@ -18,6 +18,7 @@
 #include "FilesWindow.h"
 #include "RegionGrowthWindow.h"
 #include "ViewerWindow.h"
+#include "PlateLocationWindow.h"
 
 using namespace std;
 using namespace cv;
@@ -73,12 +74,26 @@ MainWindow::MainWindow(string initialImage)
 		window->show();
 	});
 
+    QObject::connect( plateLocationButton, &QPushButton::clicked, [this] () {
+    	PlateLocationWindow *window = new PlateLocationWindow(this, *this);
+		window->show();
+	});
+
     QObject::connect( colorMapButton, &QPushButton::clicked, [this] () {
     	Mat grayImage, dstImage;
     	Mat ones(_srcImage.rows, _srcImage.cols, CV_8UC1, Scalar(255));
     	cvtColor( _srcImage, grayImage, CV_BGR2GRAY );
     	grayImage = ones - grayImage;
     	applyColorMap(grayImage, dstImage, COLORMAP_JET);
+    	setDstImage(dstImage);
+	});
+
+    QObject::connect( saturationButton, &QPushButton::clicked, [this] () {
+    	Mat dstImage, hsvImage;
+    	cvtColor( _srcImage, hsvImage, CV_BGR2HSV );
+    	vector<Mat> hsvVec(3);
+    	split(hsvImage, hsvVec);
+    	applyColorMap(hsvVec[1], dstImage, COLORMAP_JET);
     	setDstImage(dstImage);
 	});
 

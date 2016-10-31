@@ -28,6 +28,7 @@ set( SOURCES
     ${SRC_BASE}/Windows/FilesWindow.cpp
     ${SRC_BASE}/Windows/RegionGrowthWindow.cpp
     ${SRC_BASE}/Windows/ViewerWindow.cpp
+    ${SRC_BASE}/Windows/PlateLocationWindow.cpp
     ${SRC_BASE}/QMouseEventerImage.cpp
     ${SRC_BASE}/Rectangle.cpp
     ${SRC_BASE}/ImageProcessing/RegionGrowthLumOrdered/RegionGrowthLumOrdered.cpp
@@ -48,6 +49,7 @@ SET( QT_UIS
      ${QT_UI_BASE_PATH}/Files.ui
      ${QT_UI_BASE_PATH}/RegionGrowth.ui
      ${QT_UI_BASE_PATH}/Viewer.ui
+     ${QT_UI_BASE_PATH}/PlateLocation.ui
 )
                             
 QT5_WRAP_UI(QTTEST_GEN_UIS ${QT_UIS} )             

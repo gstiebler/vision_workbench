@@ -18,16 +18,16 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QPushButton" name="colorMapButton">
+       <widget class="QPushButton" name="filesWindowButton">
         <property name="text">
-         <string>Color Map</string>
+         <string>Files Window</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="regionGrowthWindowButton">
+       <widget class="QPushButton" name="buttonExecute">
         <property name="text">
-         <string>Region growth</string>
+         <string>Open file</string>
         </property>
        </widget>
       </item>
@@ -39,6 +39,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="regionGrowthWindowButton">
+        <property name="text">
+         <string>Region growth</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="thresholdButton">
         <property name="text">
          <string>Threshold</string>
@@ -46,16 +53,23 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="filesWindowButton">
+       <widget class="QPushButton" name="colorMapButton">
         <property name="text">
-         <string>Files Window</string>
+         <string>Color Map</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="buttonExecute">
+       <widget class="QPushButton" name="saturationButton">
         <property name="text">
-         <string>Open file</string>
+         <string>Saturation</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="plateLocationButton">
+        <property name="text">
+         <string>Plate location</string>
         </property>
        </widget>
       </item>
