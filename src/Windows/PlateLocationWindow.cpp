@@ -36,7 +36,7 @@ void PlateLocationWindow::execute()
 	Mat inputGray;
 	cvtColor( _srcImage, inputGray, CV_BGR2GRAY );
 	Mat outGrayImg(_srcImage.rows, _srcImage.cols, CV_8UC1);
-	platePoints(inputGray, outGrayImg, params);
+	platePointsFloat(inputGray, outGrayImg, params);
 	Mat ones(_srcImage.rows, _srcImage.cols, CV_8UC1, 255);
 	outGrayImg = ones - outGrayImg;
 	Mat colorImg;
