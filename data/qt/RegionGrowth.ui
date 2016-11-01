@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>200</width>
-    <height>278</height>
+    <width>253</width>
+    <height>316</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,6 +16,23 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout">
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Max width factor</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QDoubleSpinBox" name="maxWidthFactorSpin">
+       <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
+       <property name="value">
+        <double>1.500000000000000</double>
+       </property>
+      </widget>
+     </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
@@ -26,12 +43,12 @@
      <item row="2" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Max height factor</string>
+        <string>Max old/new height factor</string>
        </property>
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QDoubleSpinBox" name="maxHeightFactorSpin">
+      <widget class="QDoubleSpinBox" name="maxOldNewHeightFactorSpin">
        <property name="singleStep">
         <double>0.010000000000000</double>
        </property>
@@ -78,20 +95,20 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="label_5">
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_6">
        <property name="text">
-        <string>Max width factor</string>
+        <string>Max height/width factor</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="QDoubleSpinBox" name="maxWidthFactorSpin">
+     <item row="5" column="1">
+      <widget class="QDoubleSpinBox" name="maxHeightWidthFactorSpin">
        <property name="singleStep">
         <double>0.100000000000000</double>
        </property>
        <property name="value">
-        <double>1.500000000000000</double>
+        <double>1.300000000000000</double>
        </property>
       </widget>
      </item>

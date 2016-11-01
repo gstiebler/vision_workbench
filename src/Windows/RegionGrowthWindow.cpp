@@ -38,9 +38,10 @@ RegionGrowthWindow::~RegionGrowthWindow()
 void RegionGrowthWindow::getParams(RegionsGrowthParams &params) {
 	params.difHeightHistoryIndex = difIndexHeightSpin->value();
 	params.minHeight = minHeightSpin->value();
-	params.maxHeightFactor = maxHeightFactorSpin->value();
+	params.maxOldNewHeightFactor = maxOldNewHeightFactorSpin->value();
 	params.maxLum = maxLumSpin->value();
 	params.maxWidthFactor = maxWidthFactorSpin->value();
+	params.maxHeightWidthFactor = maxHeightWidthFactorSpin->value();
 }
 
 void RegionGrowthWindow::execute()
@@ -117,8 +118,8 @@ bool shouldStopRegion(RegionsGrowthParams &params, cv::Point &pointDebug, Region
 	Rectangle &currRect = region.rectHistory.back();
 	Rectangle &oldRect = region.rectHistory[region.rectHistory.size() - params.difHeightHistoryIndex];
 	double heightFactor = currRect.height() * 1.0 / oldRect.height();
-	bool hasHeightFactor = heightFactor < params.maxHeightFactor;
-	bool hasRightProportion = region.limits.height() > region.limits.width();
+	bool hasHeightFactor = heightFactor < params.maxOldNewHeightFactor;
+	bool hasRightProportion = region.limits.height() * params.maxHeightWidthFactor > region.limits.width();
 
 	if(region.limits.isInside(pointDebug))
 	{
