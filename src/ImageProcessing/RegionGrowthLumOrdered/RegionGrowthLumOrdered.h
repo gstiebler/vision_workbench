@@ -14,7 +14,14 @@
 
 class RegionsAnalyzer;
 
-void execRegionGrowthLumOrdered(cv::Mat &srcImg);
+struct RegionsGrowthParams {
+	int difHeightHistoryIndex;
+	int minHeight;
+	double maxHeightFactor;
+	int maxLum;
+};
+
+void execRegionGrowthLumOrdered(cv::Mat &srcImg, RegionsManager &regionsManager);
 
 class RegionGrowthLumOrdered
 {

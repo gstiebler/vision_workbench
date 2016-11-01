@@ -13,9 +13,8 @@
 using namespace std;
 using namespace cv;
 
-void execRegionGrowthLumOrdered(Mat &srcImg)
+void execRegionGrowthLumOrdered(Mat &srcImg, RegionsManager &regionsManager)
 {
-	RegionsManager regionsManager(srcImg.cols, srcImg.rows);
 	RegionGrowthLumOrdered regionGrowthLumOrdered( srcImg, regionsManager );
 	RegionsAnalyzer regionsAnalyzer(srcImg.rows);
 	regionGrowthLumOrdered.exec(255, &regionsAnalyzer);

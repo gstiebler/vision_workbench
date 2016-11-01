@@ -33,27 +33,32 @@ RegionGrowthWindow::~RegionGrowthWindow()
 {
 }
 
+void RegionGrowthWindow::getParams(RegionsGrowthParams &params) {
+	params.difHeightHistoryIndex = difIndexHeightSpin->value();
+	params.minHeight = minHeightSpin->value();
+	params.maxHeightFactor = maxHeightFactorSpin->value();
+	params.maxLum = maxLumSpin->value();
+}
+
 void RegionGrowthWindow::execute()
 {
+	RegionsGrowthParams params;
+	getParams(params);
 	TimeMeasure tm;
-	const int DIF_HEIGHT_HISTORY_INDEX = difIndexHeightSpin->value();
-	const int MIN_HEIGHT = minHeightSpin->value();
-	const double MAX_HEIGHT_FACTOR = maxHeightFactorSpin->value();
-	const int MAX_LUM = maxLumSpin->value();
 	Mat srcGray;
 	cvtColor( _srcImage, srcGray, CV_BGR2GRAY );
 	printf("Debug point: (%d, %d)\n", _pointDebug.x, _pointDebug.y);
 	RegionsManager regionsManager(_srcImage.cols, _srcImage.rows);
-	regionsManager.shouldStopRegionFn = [this, DIF_HEIGHT_HISTORY_INDEX, MIN_HEIGHT, MAX_HEIGHT_FACTOR, MAX_LUM] (Region &region) {
-		if((region.rectHistory.size() < DIF_HEIGHT_HISTORY_INDEX) ||
-		   (region.limits.height() < MIN_HEIGHT))
+	regionsManager.shouldStopRegionFn = [this, params] (Region &region) {
+		if((region.rectHistory.size() < params.difHeightHistoryIndex) ||
+		   (region.limits.height() < params.minHeight))
 		{
 			return false;
 		}
 		Rectangle &currRect = region.rectHistory.back();
-		Rectangle &oldRect = region.rectHistory[region.rectHistory.size() - DIF_HEIGHT_HISTORY_INDEX];
+		Rectangle &oldRect = region.rectHistory[region.rectHistory.size() - params.difHeightHistoryIndex];
 		double heightFactor = currRect.height() * 1.0 / oldRect.height();
-		bool hasHeightFactor = heightFactor < MAX_HEIGHT_FACTOR;
+		bool hasHeightFactor = heightFactor < params.maxHeightFactor;
 		bool hasRightProportion = region.limits.height() > region.limits.width();
 
 		if(region.limits.isInside(_pointDebug))
@@ -74,7 +79,7 @@ void RegionGrowthWindow::execute()
 	};
 	RegionGrowthLumOrdered regionGrowthLumOrdered( srcGray, regionsManager );
 	RegionsAnalyzer regionsAnalyzer(_srcImage.rows);
-	regionGrowthLumOrdered.exec(MAX_LUM, nullptr);
+	regionGrowthLumOrdered.exec(params.maxLum, nullptr);
 	_windowImages.setStatus(tm.getTime());
 
 	Mat dstColor(_srcImage.rows, _srcImage.cols, CV_8UC3, Scalar(0, 0, 0));

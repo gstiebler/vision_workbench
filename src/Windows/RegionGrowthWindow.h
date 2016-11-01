@@ -13,6 +13,7 @@
 #include <opencv2/opencv.hpp>
 
 class WindowImagesInterface;
+struct RegionsGrowthParams;
 
 class RegionGrowthWindow : public QDialog, private Ui::RegionGrowthWindow
 {
@@ -30,6 +31,7 @@ private:
 	cv::Mat &_srcImage;
 	cv::Point _pointDebug;
 
+	void getParams(RegionsGrowthParams &params);
 	void executeClicked();
 	void execute();
 };
