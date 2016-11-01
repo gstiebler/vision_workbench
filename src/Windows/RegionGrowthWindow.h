@@ -13,7 +13,10 @@
 #include <opencv2/opencv.hpp>
 
 class WindowImagesInterface;
+class Region;
 struct RegionsGrowthParams;
+
+bool shouldStopRegion(RegionsGrowthParams &params, cv::Point &pointDebug, Region &region);
 
 class RegionGrowthWindow : public QDialog, private Ui::RegionGrowthWindow
 {

@@ -14,6 +14,7 @@
 #include "TimeMeasure.h"
 #include <QMouseEvent>
 
+using namespace std;
 using namespace cv;
 
 RegionGrowthWindow::RegionGrowthWindow(QWidget *parent, WindowImagesInterface &windowImages) :
@@ -49,34 +50,7 @@ void RegionGrowthWindow::execute()
 	cvtColor( _srcImage, srcGray, CV_BGR2GRAY );
 	printf("Debug point: (%d, %d)\n", _pointDebug.x, _pointDebug.y);
 	RegionsManager regionsManager(_srcImage.cols, _srcImage.rows);
-	regionsManager.shouldStopRegionFn = [this, params] (Region &region) {
-		if((region.rectHistory.size() < params.difHeightHistoryIndex) ||
-		   (region.limits.height() < params.minHeight))
-		{
-			return false;
-		}
-		Rectangle &currRect = region.rectHistory.back();
-		Rectangle &oldRect = region.rectHistory[region.rectHistory.size() - params.difHeightHistoryIndex];
-		double heightFactor = currRect.height() * 1.0 / oldRect.height();
-		bool hasHeightFactor = heightFactor < params.maxHeightFactor;
-		bool hasRightProportion = region.limits.height() > region.limits.width();
-
-		if(region.limits.isInside(_pointDebug))
-		{
-			printf("id: %d, oldHeight: %d, newHeight: %d, numHeights: %ld, numPoints: %ld, xMin: %d, xMax: %d, yMin: %d, yMax: %d\n",
-					region.id,
-					oldRect.height(),
-					currRect.height(),
-					region.rectHistory.size(),
-					region.points.size(),
-					region.limits.xMin,
-					region.limits.xMax,
-					region.limits.yMin,
-					region.limits.yMax);
-		}
-
-		return hasHeightFactor && hasRightProportion;
-	};
+	regionsManager.shouldStopRegionFn = bind(shouldStopRegion, params, _pointDebug, std::placeholders::_1);
 	RegionGrowthLumOrdered regionGrowthLumOrdered( srcGray, regionsManager );
 	RegionsAnalyzer regionsAnalyzer(_srcImage.rows);
 	regionGrowthLumOrdered.exec(params.maxLum, nullptr);
@@ -92,4 +66,33 @@ void RegionGrowthWindow::mousePressed(cv::Point &point)
 {
 	_pointDebug = point;
 	execute();
+}
+
+bool shouldStopRegion(RegionsGrowthParams &params, cv::Point &pointDebug, Region &region) {
+	if((region.rectHistory.size() < params.difHeightHistoryIndex) ||
+	   (region.limits.height() < params.minHeight))
+	{
+		return false;
+	}
+	Rectangle &currRect = region.rectHistory.back();
+	Rectangle &oldRect = region.rectHistory[region.rectHistory.size() - params.difHeightHistoryIndex];
+	double heightFactor = currRect.height() * 1.0 / oldRect.height();
+	bool hasHeightFactor = heightFactor < params.maxHeightFactor;
+	bool hasRightProportion = region.limits.height() > region.limits.width();
+
+	if(region.limits.isInside(pointDebug))
+	{
+		printf("id: %d, oldHeight: %d, newHeight: %d, numHeights: %ld, numPoints: %ld, xMin: %d, xMax: %d, yMin: %d, yMax: %d\n",
+				region.id,
+				oldRect.height(),
+				currRect.height(),
+				region.rectHistory.size(),
+				region.points.size(),
+				region.limits.xMin,
+				region.limits.xMax,
+				region.limits.yMin,
+				region.limits.yMax);
+	}
+
+	return hasHeightFactor && hasRightProportion;
 }
