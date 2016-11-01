@@ -83,7 +83,7 @@ void RegionGrowthLumOrdered::exec(uchar maxLum, RegionsAnalyzer *regionsAnalyzer
 		_regionsManager.processRegionsAfterLum();
 		if(regionsAnalyzer) {
 			regionsAnalyzer->analyze(_regionsManager);
-		}
+        }
 	}
 }
 

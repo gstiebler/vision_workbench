@@ -62,9 +62,6 @@ void RegionsManager::mergeRegions(std::vector<Region*> &regions, const cv::Point
 
 void RegionsManager::mergePairOfRegions(Region *region1, Region *region2,
 		const Point &point) {
-	if (region1->stopped || region2->stopped)
-		return;
-
 	region1->merge(region2);
 	region2->addPoint(point);
 

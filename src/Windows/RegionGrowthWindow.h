@@ -16,8 +16,6 @@ class WindowImagesInterface;
 class Region;
 struct RegionsGrowthParams;
 
-bool shouldStopRegion(RegionsGrowthParams &params, cv::Point &pointDebug, Region &region);
-
 class RegionGrowthWindow : public QDialog, private Ui::RegionGrowthWindow
 {
     Q_OBJECT
@@ -35,8 +33,11 @@ private:
 	cv::Point _pointDebug;
 
 	void getParams(RegionsGrowthParams &params);
-	void executeClicked();
 	void execute();
+	void execWidth();
 };
+
+bool shouldStopRegion(RegionsGrowthParams &params, cv::Point &pointDebug, Region &region);
+bool mergeRegionsIfNotBig(std::vector<Region*> &regions);
 
 #endif /* SRC_WINDOWS_REGIONGROWTHWINDOW_H_ */

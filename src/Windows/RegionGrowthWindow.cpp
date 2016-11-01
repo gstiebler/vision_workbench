@@ -27,6 +27,7 @@ RegionGrowthWindow::RegionGrowthWindow(QWidget *parent, WindowImagesInterface &w
 	setAttribute( Qt::WA_DeleteOnClose );
 
     connect( executeButton, &QPushButton::clicked, this, &RegionGrowthWindow::execute );
+    connect( execWidthButton, &QPushButton::clicked, this, &RegionGrowthWindow::execWidth );
 
 }
 
@@ -51,7 +52,34 @@ void RegionGrowthWindow::execute()
 	printf("Debug point: (%d, %d)\n", _pointDebug.x, _pointDebug.y);
 	RegionsManager regionsManager(_srcImage.cols, _srcImage.rows);
 	regionsManager.shouldStopRegionFn = bind(shouldStopRegion, params, _pointDebug, std::placeholders::_1);
-	regionsManager.shouldMergeRegionsFn = [] (vector<Region*> &regions) { return true; };
+	regionsManager.shouldMergeRegionsFn = [] (vector<Region*> &regions) {
+		for(auto &region : regions) {
+			if(region->stopped) return false;
+		}
+		return true;
+	};
+	RegionGrowthLumOrdered regionGrowthLumOrdered( srcGray, regionsManager );
+	RegionsAnalyzer regionsAnalyzer(_srcImage.rows);
+	regionGrowthLumOrdered.exec(params.maxLum, nullptr);
+	_windowImages.setStatus(tm.getTime());
+
+	Mat dstColor(_srcImage.rows, _srcImage.cols, CV_8UC3, Scalar(0, 0, 0));
+	paintByHeight(regionsManager.stoppedRegions, dstColor);
+
+	_windowImages.setDstImage(dstColor);
+}
+
+void RegionGrowthWindow::execWidth()
+{
+	RegionsGrowthParams params;
+	getParams(params);
+	TimeMeasure tm;
+	Mat srcGray;
+	cvtColor( _srcImage, srcGray, CV_BGR2GRAY );
+	printf("Debug point: (%d, %d)\n", _pointDebug.x, _pointDebug.y);
+	RegionsManager regionsManager(_srcImage.cols, _srcImage.rows);
+	regionsManager.shouldStopRegionFn = bind(shouldStopRegion, params, _pointDebug, std::placeholders::_1);
+	regionsManager.shouldMergeRegionsFn = mergeRegionsIfNotBig;
 	RegionGrowthLumOrdered regionGrowthLumOrdered( srcGray, regionsManager );
 	RegionsAnalyzer regionsAnalyzer(_srcImage.rows);
 	regionGrowthLumOrdered.exec(params.maxLum, nullptr);
@@ -98,3 +126,22 @@ bool shouldStopRegion(RegionsGrowthParams &params, cv::Point &pointDebug, Region
 
 	return hasHeightFactor && hasRightProportion;
 }
+
+bool mergeRegionsIfNotBig(std::vector<Region*> &regions) {
+	const int STOPPED_TRESH = 1000000;
+	const float WIDTH_FACTOR = 1.7;
+
+	Rectangle newRegionSize = regions[0]->limits;
+	int smallestStopped = STOPPED_TRESH;
+	for(auto &region : regions) {
+		if(region->stopped) {
+			smallestStopped = min(smallestStopped, region->limits.width());
+		}
+		newRegionSize.merge(region->limits);
+	}
+	// no stopped regions
+	if(smallestStopped == STOPPED_TRESH) return true;
+
+	return newRegionSize.width() < smallestStopped * WIDTH_FACTOR;
+}
+
