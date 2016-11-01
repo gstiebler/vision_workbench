@@ -50,12 +50,7 @@ public:
 	 */
 	void createRegion( const cv::Point &point );
 
-	/**
-	 * Merges 2 regions (if applicable)
-	 * @param[in] region1 First region
-	 * @param[in] region2 Second region
-	 */
-	void mergeRegions( Region *region1, Region *region2, const cv::Point &point );
+	void mergeRegions( std::vector<Region*> &regions, const cv::Point &point );
 
 	void processRegionsAfterLum();
 
@@ -75,6 +70,13 @@ private:
 
 	/** Region id of each pixel */
 	std::vector< std::vector< int > > _regionOfPixel;
+
+	/**
+	 * Merges 2 regions (if applicable)
+	 * @param[in] region1 First region
+	 * @param[in] region2 Second region
+	 */
+	void mergePairOfRegions( Region *region1, Region *region2, const cv::Point &point );
 };
 
 #endif /* SRC_IMAGEPROCESSING_REGIONGROWTHLUMORDERED_REGIONSMANAGER_H_ */

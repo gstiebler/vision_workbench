@@ -52,11 +52,14 @@ void RegionsManager::createRegion(const Point &point) {
 	activeRegions[region->id] = region;
 }
 
-void RegionsManager::mergeRegions(Region *region1, Region *region2,
-		const Point &point) {
-	if (region1 == region2)
-		return;
+void RegionsManager::mergeRegions(std::vector<Region*> &regions, const cv::Point &point) {
+	for(size_t i(1); i < regions.size(); ++i) {
+		mergePairOfRegions( regions[i], regions[i - 1], point );
+	}
+}
 
+void RegionsManager::mergePairOfRegions(Region *region1, Region *region2,
+		const Point &point) {
 	if (region1->stopped || region2->stopped)
 		return;
 

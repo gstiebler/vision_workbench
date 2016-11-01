@@ -111,9 +111,7 @@ void RegionGrowthLumOrdered::processPoint(const cv::Point &point)
 		for(auto &regionkv : regionsMap) {
 			regionsVec.push_back(regionkv.second);
 		}
-		for(size_t i(1); i < regionsVec.size(); ++i) {
-			_regionsManager.mergeRegions( regionsVec[i], regionsVec[i - 1], point );
-		}
+		_regionsManager.mergeRegions(regionsVec, point);
 	}
 }
 
