@@ -50,37 +50,37 @@ void RegionsManager::createRegion(const Point &point) {
 	region->addPoint(point);
 	regions.push_back(region);
 	activeRegions[region->id] = region;
+	notStoppedActiveRegions[region->id] = region;
 }
 
 void RegionsManager::mergeRegions(std::vector<Region*> &regions, const cv::Point &point) {
 	if(!shouldMergeRegionsFn(regions)) return;
 
 	for(size_t i(1); i < regions.size(); ++i) {
-		mergePairOfRegions( regions[i], regions[i - 1], point );
+		mergePairOfRegions( regions[i], regions[i - 1]);
 	}
+	regions.back()->addPoint(point);
 }
 
-void RegionsManager::mergePairOfRegions(Region *region1, Region *region2,
-		const Point &point) {
+void RegionsManager::mergePairOfRegions(Region *region1, Region *region2) {
 	region1->merge(region2);
-	region2->addPoint(point);
-
 	activeRegions.erase(region1->id);
+	notStoppedActiveRegions.erase(region1->id);
 }
 
 void RegionsManager::processRegionsAfterLum() {
-	auto regionIt = activeRegions.begin();
-	while (regionIt != activeRegions.end()) {
+	auto regionIt = notStoppedActiveRegions.begin();
+	while (regionIt != notStoppedActiveRegions.end()) {
 		Region *region = (*regionIt).second;
 		region->rectHistory.push_back(region->limits);
 
 		if (shouldStopRegionFn(*region)) {
 			region->stopped = true;
-			stoppedRegions.push_back(region);
+			notStoppedActiveRegions.erase(region->id);
 
 			auto previous = regionIt;
 			regionIt++;
-			activeRegions.erase(previous);
+			//activeRegions.erase(previous);
 		} else {
 			regionIt++;
 		}

@@ -27,7 +27,7 @@ Region::~Region()
 
 void Region::addPoint( const Point &point )
 {
-	if(stopped) return;
+	//if(stopped) return;
 
 	points.push_back( point );
 	limits.addPoint(point);

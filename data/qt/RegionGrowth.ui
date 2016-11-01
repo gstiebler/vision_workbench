@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>200</width>
-    <height>240</height>
+    <height>278</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -75,6 +75,23 @@
        </property>
        <property name="value">
         <number>180</number>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Max width factor</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QDoubleSpinBox" name="maxWidthFactorSpin">
+       <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
+       <property name="value">
+        <double>1.500000000000000</double>
        </property>
       </widget>
      </item>

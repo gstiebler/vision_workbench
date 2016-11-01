@@ -65,7 +65,7 @@ public:
 	// regions not merged into another regions, and not stopped
 	std::map<int, Region*> activeRegions;
 
-	std::vector<Region*> stoppedRegions;
+	std::map<int, Region*> notStoppedActiveRegions;
 
 private:
 
@@ -77,7 +77,7 @@ private:
 	 * @param[in] region1 First region
 	 * @param[in] region2 Second region
 	 */
-	void mergePairOfRegions( Region *region1, Region *region2, const cv::Point &point );
+	void mergePairOfRegions( Region *region1, Region *region2);
 };
 
 #endif /* SRC_IMAGEPROCESSING_REGIONGROWTHLUMORDERED_REGIONSMANAGER_H_ */

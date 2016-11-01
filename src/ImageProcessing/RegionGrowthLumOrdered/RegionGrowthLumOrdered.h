@@ -19,6 +19,7 @@ struct RegionsGrowthParams {
 	int minHeight;
 	double maxHeightFactor;
 	int maxLum;
+	double maxWidthFactor;
 };
 
 void execRegionGrowthLumOrdered(cv::Mat &srcImg, RegionsManager &regionsManager);

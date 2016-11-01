@@ -38,6 +38,6 @@ private:
 };
 
 bool shouldStopRegion(RegionsGrowthParams &params, cv::Point &pointDebug, Region &region);
-bool mergeRegionsIfNotBig(std::vector<Region*> &regions);
+bool mergeRegionsIfNotBig(RegionsGrowthParams &params, cv::Point &pointDebug, std::vector<Region*> &regions);
 
 #endif /* SRC_WINDOWS_REGIONGROWTHWINDOW_H_ */

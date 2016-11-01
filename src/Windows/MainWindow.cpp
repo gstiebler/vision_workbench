@@ -49,6 +49,7 @@ MainWindow::MainWindow(string initialImage)
     QObject::connect( dstImageLabel, &QMouseEventerImage::mousePressed, [this] (QMouseEvent *event) {
     	ViewerWindow *window = new ViewerWindow(this);
         connect( this, &MainWindow::dstImageChanged, window, &ViewerWindow::imageChanged );
+        QObject::connect( window, &ViewerWindow::mousePressed, this, &MainWindow::mousePressedOnViewerWindow);
     	emit dstImageChanged(_dstImage);
 		window->show();
 	});

@@ -40,6 +40,7 @@ void RegionGrowthWindow::getParams(RegionsGrowthParams &params) {
 	params.minHeight = minHeightSpin->value();
 	params.maxHeightFactor = maxHeightFactorSpin->value();
 	params.maxLum = maxLumSpin->value();
+	params.maxWidthFactor = maxWidthFactorSpin->value();
 }
 
 void RegionGrowthWindow::execute()
@@ -64,7 +65,11 @@ void RegionGrowthWindow::execute()
 	_windowImages.setStatus(tm.getTime());
 
 	Mat dstColor(_srcImage.rows, _srcImage.cols, CV_8UC3, Scalar(0, 0, 0));
-	paintByHeight(regionsManager.stoppedRegions, dstColor);
+	vector<Region*> activeRegions;
+	for(auto &region : regionsManager.activeRegions) {
+		activeRegions.push_back(region.second);
+	}
+	paintByHeight(activeRegions, dstColor);
 
 	_windowImages.setDstImage(dstColor);
 }
@@ -79,14 +84,19 @@ void RegionGrowthWindow::execWidth()
 	printf("Debug point: (%d, %d)\n", _pointDebug.x, _pointDebug.y);
 	RegionsManager regionsManager(_srcImage.cols, _srcImage.rows);
 	regionsManager.shouldStopRegionFn = bind(shouldStopRegion, params, _pointDebug, std::placeholders::_1);
-	regionsManager.shouldMergeRegionsFn = mergeRegionsIfNotBig;
+	regionsManager.shouldMergeRegionsFn = bind(mergeRegionsIfNotBig, params, _pointDebug, std::placeholders::_1);
 	RegionGrowthLumOrdered regionGrowthLumOrdered( srcGray, regionsManager );
 	RegionsAnalyzer regionsAnalyzer(_srcImage.rows);
 	regionGrowthLumOrdered.exec(params.maxLum, nullptr);
 	_windowImages.setStatus(tm.getTime());
 
 	Mat dstColor(_srcImage.rows, _srcImage.cols, CV_8UC3, Scalar(0, 0, 0));
-	paintByHeight(regionsManager.stoppedRegions, dstColor);
+
+	vector<Region*> activeRegions;
+	for(auto &region : regionsManager.activeRegions) {
+		activeRegions.push_back(region.second);
+	}
+	paintByHeight(activeRegions, dstColor);
 
 	_windowImages.setDstImage(dstColor);
 }
@@ -94,7 +104,7 @@ void RegionGrowthWindow::execWidth()
 void RegionGrowthWindow::mousePressed(cv::Point &point)
 {
 	_pointDebug = point;
-	execute();
+	execWidth();
 }
 
 
@@ -127,9 +137,8 @@ bool shouldStopRegion(RegionsGrowthParams &params, cv::Point &pointDebug, Region
 	return hasHeightFactor && hasRightProportion;
 }
 
-bool mergeRegionsIfNotBig(std::vector<Region*> &regions) {
+bool mergeRegionsIfNotBig(RegionsGrowthParams &params, cv::Point &pointDebug, std::vector<Region*> &regions) {
 	const int STOPPED_TRESH = 1000000;
-	const float WIDTH_FACTOR = 1.7;
 
 	Rectangle newRegionSize = regions[0]->limits;
 	int smallestStopped = STOPPED_TRESH;
@@ -142,6 +151,7 @@ bool mergeRegionsIfNotBig(std::vector<Region*> &regions) {
 	// no stopped regions
 	if(smallestStopped == STOPPED_TRESH) return true;
 
-	return newRegionSize.width() < smallestStopped * WIDTH_FACTOR;
+	float maxWidth = smallestStopped * params.maxWidthFactor;
+	return newRegionSize.width() < maxWidth;
 }
 
