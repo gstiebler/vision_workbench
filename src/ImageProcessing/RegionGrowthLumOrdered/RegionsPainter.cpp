@@ -20,11 +20,13 @@ void paintByHeight(vector<Region*> &regions, Mat &dstImg)
 	int minHeight = dstImg.rows;
 	for(auto &region : regions)
 	{
+		if(!region->isStopped()) continue;
 		minHeight = min(minHeight, region->limits.height());
 		maxHeight = max(maxHeight, region->limits.height());
 	}
 	for(auto &region : regions)
 	{
+		if(!region->isStopped()) continue;
 		vector<Point> points;
 		region->getPoints(points);
 		double factor = 1.0 - ((region->limits.height() - minHeight) * 1.0 / maxHeight) * 0.8;

@@ -75,7 +75,7 @@ void RegionsManager::processRegionsAfterLum() {
 		region->rectHistory.push_back(region->limits);
 
 		if (shouldStopRegionFn(*region)) {
-			region->stopped = true;
+			region->stop();
 			notStoppedActiveRegions.erase(region->id);
 
 			auto previous = regionIt;

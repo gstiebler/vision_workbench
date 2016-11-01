@@ -15,9 +15,10 @@ using namespace cv;
 Region::Region( RegionsManager *regionsManager, int id ) :
 	_regionsManager( regionsManager ),
 	id( id ),
-	stopped(false),
 	limits({1000000, -1, 1000000, -1}),
-	_destMergedRegion( nullptr )
+	_destMergedRegion( nullptr ),
+	_stopped(false),
+	_stoppedWidth(-1)
 {
 }
 
@@ -40,6 +41,8 @@ void Region::merge( Region *other )
 	_destMergedRegion = other;
 	other->_srcMergedRegions.push_back(this);
 	other->mergeHistory(rectHistory);
+	other->_stopped = other->_stopped || _stopped;
+	other->_stoppedWidth = _stoppedWidth;
 	replaceId(other->id);
 }
 
@@ -64,6 +67,19 @@ void Region::getPoints(std::vector<cv::Point> &outPoints) const
 	{
 		srcRegion->getPoints(outPoints);
 	}
+}
+
+void Region::stop() {
+	_stopped = true;
+	_stoppedWidth = limits.width();
+}
+
+bool Region::isStopped() const {
+	return _stopped;
+}
+
+int Region::getStoppedWidth() const {
+	return _stoppedWidth;
 }
 
 void Region::mergeHistory(vector<Rectangle> &other)

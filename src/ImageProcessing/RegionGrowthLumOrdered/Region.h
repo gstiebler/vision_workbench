@@ -38,10 +38,12 @@ public:
 
 	bool wasMergedIntoAnotherRegion() const;
 	void getPoints(std::vector<cv::Point> &points) const;
+	void stop();
+	bool isStopped() const;
+	int getStoppedWidth() const;
 
 	Rectangle limits;
 	int id;
-	bool stopped;
 	std::vector<Rectangle> rectHistory;
 
 	/** The points of the region */
@@ -58,6 +60,11 @@ private:
 	Region *_destMergedRegion;
 
 	std::vector<Region*> _srcMergedRegions;
+
+	bool _stopped;
+
+	// the width the region have when it is stopped
+	int _stoppedWidth;
 };
 
 #endif /* SRC_IMAGEPROCESSING_REGIONGROWTHLUMORDERED_REGION_H_ */

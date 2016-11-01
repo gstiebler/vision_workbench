@@ -55,7 +55,7 @@ void RegionGrowthWindow::execute()
 	regionsManager.shouldStopRegionFn = bind(shouldStopRegion, params, _pointDebug, std::placeholders::_1);
 	regionsManager.shouldMergeRegionsFn = [] (vector<Region*> &regions) {
 		for(auto &region : regions) {
-			if(region->stopped) return false;
+			if(region->isStopped()) return false;
 		}
 		return true;
 	};
@@ -142,14 +142,16 @@ bool mergeRegionsIfNotBig(RegionsGrowthParams &params, cv::Point &pointDebug, st
 
 	Rectangle newRegionSize = regions[0]->limits;
 	int smallestStopped = STOPPED_TRESH;
+	int numStopped = 0;
 	for(auto &region : regions) {
-		if(region->stopped) {
+		if(region->isStopped()) {
 			smallestStopped = min(smallestStopped, region->limits.width());
+			numStopped++;
 		}
 		newRegionSize.merge(region->limits);
 	}
-	// no stopped regions
-	if(smallestStopped == STOPPED_TRESH) return true;
+	if(numStopped == 0) return true;
+	if(numStopped > 1) return false;
 
 	float maxWidth = smallestStopped * params.maxWidthFactor;
 	return newRegionSize.width() < maxWidth;
