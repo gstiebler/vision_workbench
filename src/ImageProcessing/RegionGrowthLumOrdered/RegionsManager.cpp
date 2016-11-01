@@ -53,6 +53,8 @@ void RegionsManager::createRegion(const Point &point) {
 }
 
 void RegionsManager::mergeRegions(std::vector<Region*> &regions, const cv::Point &point) {
+	if(!shouldMergeRegionsFn(regions)) return;
+
 	for(size_t i(1); i < regions.size(); ++i) {
 		mergePairOfRegions( regions[i], regions[i - 1], point );
 	}

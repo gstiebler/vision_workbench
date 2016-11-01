@@ -51,6 +51,7 @@ void RegionGrowthWindow::execute()
 	printf("Debug point: (%d, %d)\n", _pointDebug.x, _pointDebug.y);
 	RegionsManager regionsManager(_srcImage.cols, _srcImage.rows);
 	regionsManager.shouldStopRegionFn = bind(shouldStopRegion, params, _pointDebug, std::placeholders::_1);
+	regionsManager.shouldMergeRegionsFn = [] (vector<Region*> &regions) { return true; };
 	RegionGrowthLumOrdered regionGrowthLumOrdered( srcGray, regionsManager );
 	RegionsAnalyzer regionsAnalyzer(_srcImage.rows);
 	regionGrowthLumOrdered.exec(params.maxLum, nullptr);
@@ -67,6 +68,7 @@ void RegionGrowthWindow::mousePressed(cv::Point &point)
 	_pointDebug = point;
 	execute();
 }
+
 
 bool shouldStopRegion(RegionsGrowthParams &params, cv::Point &pointDebug, Region &region) {
 	if((region.rectHistory.size() < params.difHeightHistoryIndex) ||

@@ -60,6 +60,7 @@ public:
 	std::vector<int> regionsIndexMap;
 
 	std::function<bool(Region&)> shouldStopRegionFn;
+	std::function<bool(std::vector<Region*> &regions)> shouldMergeRegionsFn;
 
 	// regions not merged into another regions, and not stopped
 	std::map<int, Region*> activeRegions;
